@@ -1,0 +1,50 @@
+
+.columnholder{
+	padding-left:70px;
+	width:100%;
+	display:inline-block ;
+
+}
+
+.column {
+	float: left;
+	margin-right: 70px;
+}
+
+.box
+{
+	background-color:white;
+	width: 300px;
+	padding-bottom:5px;
+	margin-bottom:70px;
+
+}
+.textbox
+{
+	margin-bottom:30px;
+	margin-top:30px;
+}
+body {
+	background-color:#f8f8f8;
+}
+
+.center{
+	margin:auto;
+	width:50%;
+
+}
+.centertext{
+	text-align:center;
+}
+
+.titlerow{
+	display:inline;
+	text-align:center;
+}
+
+img{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
