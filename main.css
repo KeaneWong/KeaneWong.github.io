@@ -1,5 +1,6 @@
 
 .columnholder{
+	padding-top:80px;
 	padding-left:70px;
 	width:100%;
 	display:inline-block ;
@@ -38,8 +39,11 @@ body {
 }
 
 .titlerow{
+	width:100%;
 	display:inline;
-	text-align:center;
+    align-items:center;
+	position:fixed;
+	float: left;
 }
 
 img{
