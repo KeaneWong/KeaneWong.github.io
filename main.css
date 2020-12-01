@@ -61,7 +61,10 @@ body {
 }
 .medialinks a{
 	display:inline-block;
-	margin-bottom:0px;
+}
+.medialinks a img{
+	width:24px;
+	height:24px;
 }
 
 img{
