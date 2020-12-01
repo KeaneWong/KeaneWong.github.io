@@ -40,10 +40,12 @@ body {
 
 .titlerow{
 	width:100%;
-	display:inline;
+	display:inline-block;
     align-items:center;
 	position:fixed;
-	float: left;
+}
+.titlerow div{
+	text-align:right;
 }
 
 img{
