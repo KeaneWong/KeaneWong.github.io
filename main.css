@@ -40,12 +40,28 @@ body {
 
 .titlerow{
 	width:100%;
-	display:inline-block;
-    align-items:center;
-	position:fixed;
+	display:flex;
+	justify-content:space-between;
 }
-.titlerow div{
-	text-align:right;
+.burgernav{
+	display: inline-block;
+	left:0px;
+	float:left;
+}
+.titlecard
+{
+	display:inline-block;
+	
+}
+.medialinks{
+	display:flex;
+	justify-content:center;
+	float:right;
+
+}
+.medialinks a{
+	display:inline-block;
+	margin-bottom:0px;
 }
 
 img{
