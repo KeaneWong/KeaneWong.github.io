@@ -1,27 +1,28 @@
 
 .header{
-	width:100%;
-	padding-top:100px;
+	padding-top:9%;
+	padding-bottom:9%;
 	padding-left:95px;
+	padding-right:95px;
+
 }
 
 .columnholder{
-	padding-top:80px;
 	padding-left:95px;
-	width:100%;
-	display:inline-block ;
+	padding-right:95px;
+	display:flex ;
+	justify-content:space-between;
 
 }
 
 .column {
-	float: left;
-	margin-right: 70px;
+ 	max-width:260px;
 }
 
 .box
 {
 	background-color:white;
-	width: 300px;
+	width: 260px;
 	padding-bottom:5px;
 	margin-bottom:70px;
 
@@ -45,14 +46,14 @@ body {
 }
 
 .titlerow{
-	width:100%;
+
 	display:flex;
 	justify-content:space-between;
 }
 .burgernav{
-	display: inline-block;
-	left:0px;
-	float:left;
+	display: flex;
+	justify-content:center;
+	align-items:center;
 }
 .titlecard
 {
