@@ -1,28 +1,36 @@
 
 .header{
-	padding-top:9%;
-	padding-bottom:9%;
+	padding-top:3%;
+	padding-bottom:7%;
 	padding-left:95px;
 	padding-right:95px;
-
+	background-color:rgba(102,187,239,0);
+	position:fixed;
+	width:100%;
+	top:0;
 }
 
 .columnholder{
-	padding-left:95px;
-	padding-right:95px;
-	display:flex ;
+	padding-left:80px;
+	padding-right:80px;
+	padding-top:170px;
+	display:flex;
 	justify-content:space-between;
+	flex-wrap:wrap;
 
 }
 
 .column {
+	width:20%;
  	max-width:260px;
+ 	min-width:240px;
 }
 
 .box
 {
 	background-color:white;
-	width: 260px;
+	width: 50%;
+	max-width:260px;
 	padding-bottom:5px;
 	margin-bottom:70px;
 
