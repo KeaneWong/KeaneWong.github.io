@@ -22,8 +22,7 @@ export const BackgroundCanvas = () => {
                 overflow: 'hidden',
             }}
         >
-        <Canvas
-        >
+        <Canvas>
             <OrthographicCamera
                 makeDefault
                 left={-1}
