@@ -4,15 +4,12 @@ import
     useThree,
     useFrame,
     extend,
-    Canvas
-
 } from '@react-three/fiber'
-import {PerspectiveCamera, useFBO, useTexture} from '@react-three/drei'
-import {Scene, Texture, WebGLRenderTarget} from 'three';
+import {useFBO, useTexture} from '@react-three/drei'
+import {Scene, Texture,} from 'three';
 import {useRef, useEffect, useState} from 'react'
-import {Window} from "./Window.tsx"
 import RainMaterial from "./RainMaterial.tsx"
-import {WorldBehindWindow} from "../WorldBehindWindow.tsx";
+import {WindowView} from "../WindowView.tsx";
 
 extend({RainMaterial})
 
@@ -31,17 +28,23 @@ export const RainyWindow = (
 
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const {size, viewport} = useThree()
-    // const textureRef = useRef<WebGLRenderTarget>(null);
-    const [subScene] = useState<Scene>(new Scene())
-    // const [windowRenderTarget] = useState<WebGLRenderTarget>(null);
     const windowRenderTarget = useFBO();
-
-    // const [uTexRes] = useState(new THREE.Vector2(1920,1200))
-    // const [uRes] = useState(new THREE.Vector2())
 
     // Load texture using drei's useTexture hook
     const texture: Texture = useTexture(backgroundTexture)
+    const [mousePosition, setMousePosition] = useState([0.5, 0.5])
+    // Track mouse position
+    useEffect(() => {
+        const handleMouseMove = (event: MouseEvent) => {
+            setMousePosition([
+                event.clientX / size.width,
+                1.0 - (event.clientY / size.height) // Invert Y since WebGL coordinate system is bottom-up
+            ])
+        }
 
+        window.addEventListener('mousemove', handleMouseMove)
+        return () => window.removeEventListener('mousemove', handleMouseMove)
+    }, [size])
     // Update resolution and time on each frame
     useFrame((state) => {
         if (materialRef.current) {
@@ -63,43 +66,49 @@ export const RainyWindow = (
         }
     })
 
-    // useFrame(({gl, camera, scene}) => {
-    //     gl.setRenderTarget(windowRenderTarget);
-    //     gl.render(scene, camera);
-    //     gl.setRenderTarget(null);
-    // });
-
-
     // Set up texture when component mounts
     useEffect(() => {
-        // if (materialRef.current && texture) {
-        //     materialRef.current.uniforms.u_tex0.value = texture
-        // }
         if (materialRef.current && windowRenderTarget) {
             materialRef.current.uniforms.u_tex0.value = windowRenderTarget.texture;
         } else {
             console.log("ERROR: Nullish values ", materialRef.current, windowRenderTarget)
         }
     }, [])
+    // Update resolution when canvas is resized
+    useEffect(() => {
+        if (materialRef.current) {
+            materialRef.current.u_resolution.set(size.width, size.height)
+        }
+    }, [size])
 
 
     return (
-        <mesh>
+        <mesh
+        >
             {/* Use a plane that fills the entire view */}
             <planeGeometry
-                args={[viewport.width, viewport.height]}/>
-
-                <WorldBehindWindow
-                    windowRenderTarget={windowRenderTarget}
-                    // textureRef={textureRef}
-                />
+                args={[viewport.width, viewport.height]}
+            />
+            <WindowView
+                windowRenderTarget={windowRenderTarget}
+                // textureRef={textureRef}
+            />
             <rainMaterial
                 ref={materialRef}
+                u_resolution={
+                    windowRenderTarget !== null ?
+                        (new THREE.Vector2(windowRenderTarget.width, windowRenderTarget.height)) :
+                        undefined}
                 u_intensity={0.5}
                 u_speed={0.3}
+                u_blur_intensity={4}
                 u_zoom={1.2}
                 u_blur_iterations={16} // Reduced from 16 for better performance
-                transparent={true}
+                // transparent={true}
+                u_mouse_position={new THREE.Vector2(...mousePosition)}
+                u_clear_radius={0.25}
+                u_clear_edge_softness={0.05}
+                u_clear_blur_reduction={1}
 
             />
         </mesh>

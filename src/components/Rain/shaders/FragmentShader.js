@@ -1,4 +1,3 @@
-
 export const FragmentShader = `#ifdef GL_ES
 precision highp float;
 #endif
@@ -19,6 +18,12 @@ uniform bool u_panning;
 uniform bool u_post_processing;
 uniform bool u_lightning;
 uniform bool u_texture_fill;
+
+// New uniforms for the clear spot effect
+uniform vec2 u_mouse_position;
+uniform float u_clear_radius;
+uniform float u_clear_edge_softness;
+uniform float u_clear_blur_reduction;
 
 #define S(a, b, t) smoothstep(a, b, t)
 //#define USE_POST_PROCESSING
@@ -161,8 +166,23 @@ void main() {
     vec3 col = texture2D(u_tex0, UV + n).rgb;
     vec4 texCoord = vec4(UV.x + n.x, UV.y + n.y, 0, 1.0 * 25. * 0.01 / 7.);
 
+    // Calculate the distance from the current pixel to the mouse position
+    float distToMouse = length(UV - u_mouse_position);
+    
+    // Create a smooth falloff for the clear area
+    float clearFactor = 1.0 - smoothstep(u_clear_radius - u_clear_edge_softness, 
+                                        u_clear_radius + u_clear_edge_softness, 
+                                        distToMouse);
+                                        
+    // Apply adjusted blur based on distance to mouse
+    float adjustedBlurIntensity = u_blur_intensity * (1.0 - clearFactor * u_clear_blur_reduction);
+    float blur = adjustedBlurIntensity;
+    
+    // Also reduce the normal displacement in the clear area
+    n *= (1.0 - clearFactor * 0.8);
+    texCoord = vec4(UV.x + n.x, UV.y + n.y, 0, 1.0 * 25. * 0.01 / 7.);
+
     if(u_blur_iterations != 1) {
-        float blur = u_blur_intensity;
         blur *= 0.01;
         float a = N21(gl_FragCoord.xy) * 6.2831;
         for(int m = 0; m < 64; m++) {
@@ -178,7 +198,7 @@ void main() {
         col /= float(u_blur_iterations);
     }
 
-    t = (T + 3.) * .5;			// make time sync with first lightnoing
+    t = (T + 3.) * .5;			// make time sync with first lightning
     if(u_post_processing) {
         //float colFade = sin(t * .2) * .5 + .5;
         col *= mix(vec3(1.), vec3(.8, .9, 1.3), 1.);	// subtle color shift
@@ -186,11 +206,14 @@ void main() {
     float fade = S(0., 10., T);							// fade in at the start
 
     if(u_lightning) {
-        float lightning = sin(t * sin(t * 10.));				// lighting flicker
+        float lightning = sin(t * sin(t * 10.));			// lighting flicker
         lightning *= pow(max(0., sin(t + sin(t))), 10.);		// lightning flash
         col *= 1. + lightning * fade * mix(1., .1, 0.);	// composite lightning
     }
     col *= 1. - dot(UV -= .5, UV) * 1.; // vignette
+
+    // Optional: Visualize the clear area for debugging
+    // col = mix(col, col + vec3(0.2, 0.0, 0.0), clearFactor * 0.3);
 
     gl_FragColor = vec4(col * u_brightness, 1);
 }`
