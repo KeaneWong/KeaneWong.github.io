@@ -5,6 +5,8 @@ import {BackgroundCanvas} from "./components/BackgroundCanvas.tsx";
 import {PageOverlay} from "./components/PageOverlay.tsx";
 import {HeadSection} from "./components/HeadSection.tsx";
 import {MainToolbar} from "./components/MainToolbar.tsx";
+import {WindowRevealer} from "./components/WindowRevealer.tsx";
+import {EyeOpener} from "./components/EyeOpener.tsx";
 
 function App() {
 
@@ -14,6 +16,8 @@ function App() {
                 height: "10000px"
             }}
         >
+            {/*<WindowRevealer/>*/}
+            <EyeOpener/>
             <MainToolbar/>
             <div
                 style={{
