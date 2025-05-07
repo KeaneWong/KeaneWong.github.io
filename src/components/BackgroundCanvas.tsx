@@ -70,7 +70,6 @@ export const BackgroundCanvas = () => {
 
                     />
                     <RainyWindow
-
                     />
                 </Canvas>
 

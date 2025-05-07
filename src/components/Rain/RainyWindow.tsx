@@ -10,7 +10,6 @@ import {useRef, useEffect, useState} from 'react'
 import RainMaterial from "./RainMaterial.tsx"
 import {WindowView} from "../WindowView.tsx";
 
-extend({RainMaterial})
 
 export interface RainyWindowPropsType {
 }
@@ -19,6 +18,8 @@ const devicePixelRatio = window.devicePixelRatio || 1;
 
 export const RainyWindow = (
     {}: RainyWindowPropsType) => {
+    extend({RainMaterial})
+
 
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const {size, viewport} = useThree()
@@ -43,12 +44,18 @@ export const RainyWindow = (
             // Update time uniform
             materialRef.current.uniforms.u_time.value = state.clock.getElapsedTime()
 
-            // Update resolution when viewport changes
-            materialRef.current.uniforms.u_resolution.value.set(
-                size.width * devicePixelRatio,
-                size.height * devicePixelRatio)
+            // // Update resolution when viewport changes
+            // materialRef.current.uniforms.u_resolution.value.set(
+            //     size.width * devicePixelRatio,
+            //     size.height * devicePixelRatio
+            // )
 
         }
+        materialRef.current.uniforms.u_tex0_resolution.value.set(
+            1900,
+            1200,
+        )
+
     })
 
     // Set up texture when component mounts
@@ -66,12 +73,15 @@ export const RainyWindow = (
         }
     }, [size])
 
+    // Load texture using drei's useTexture hook
+
 
     return (
-        <mesh>
+        <mesh
+        >
             {/* Use a plane that fills the entire view */}
             <planeGeometry
-                args={[viewport.width, viewport.height]}
+                args={[1.19, 1.12]}
 
             />
             <WindowView
@@ -82,7 +92,10 @@ export const RainyWindow = (
                 ref={materialRef}
                 u_resolution={
                     windowRenderTarget !== null ?
-                        (new THREE.Vector2(windowRenderTarget.width, windowRenderTarget.height)) :
+                        (new THREE.Vector2(
+                            windowRenderTarget.width,
+                            windowRenderTarget.height
+                        )) :
                         undefined}
                 u_intensity={0.5}
                 u_speed={0.3}
