@@ -9,7 +9,7 @@ import
     useFrame,
 
 } from '@react-three/fiber'
-import {OrthographicCamera, PerspectiveCamera} from "@react-three/drei";
+import {CameraWrapper} from "./CameraWrapper.tsx";
 
 const PARALLAX = 3
 
@@ -31,8 +31,6 @@ export const BackgroundCanvas = () => {
         }
 
     }, [])
-    const cameraZ = 10
-    const fov = 75
     return (
         <div
             style={{
@@ -54,21 +52,7 @@ export const BackgroundCanvas = () => {
             >
 
                 <Canvas>
-                    <OrthographicCamera
-                        // makeDefault
-                        // position={[-1,0,0]}
-                        // fov={75}
-                        // aspect={1920/1200}
-                        // near={0.1}
-                        // far={10}
-                        left={-1}
-                        right={1}
-                        top={1}
-                        bottom={-1}
-                        near={0}
-                        far={1}
-
-                    />
+                    <CameraWrapper/>
                     <RainyWindow
                     />
                 </Canvas>

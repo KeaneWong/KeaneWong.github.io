@@ -7,6 +7,8 @@ uniform sampler2D u_tex0;
 uniform vec2 u_tex0_resolution;
 uniform float u_time;
 uniform vec2 u_resolution;
+uniform vec2 u_plane_size;
+uniform float u_world_scale;
 uniform float u_speed;
 uniform float u_intensity;
 uniform float u_normal;
@@ -19,15 +21,13 @@ uniform bool u_post_processing;
 uniform bool u_lightning;
 uniform bool u_texture_fill;
 
-// New uniforms for the clear spot effect
+// Uniforms for the clear spot effect
 uniform vec2 u_mouse_position;
 uniform float u_clear_radius;
 uniform float u_clear_edge_softness;
 uniform float u_clear_blur_reduction;
 
 #define S(a, b, t) smoothstep(a, b, t)
-//#define USE_POST_PROCESSING
-//#define CHEAP_NORMALS
 
 vec3 N13(float p) {
     //  from DAVE HOSKINS
@@ -90,7 +90,6 @@ vec2 DropLayer2(vec2 uv, float t) {
     droplets = S(.3, 0., dd);
     float m = mainDrop + droplets * r * trailFront;
 
-    //m += st.x>a.y*.45 || st.y>a.x*.165 ? 1.2 : 0.;
     return vec2(m, trail);
 }
 
@@ -127,61 +126,79 @@ float N21(vec2 p) {
 }
 
 void main() {
-    vec2 uv = (gl_FragCoord.xy - .5 * u_resolution.xy) / u_resolution.y;
-    vec2 UV = gl_FragCoord.xy / u_resolution.xy;//-.5;
-    float T = u_time;
-
-    if(u_texture_fill) {
-        float screenAspect = u_resolution.x / u_resolution.y;
-        float textureAspect = u_tex0_resolution.x / u_tex0_resolution.y;
-        float scaleX = 1., scaleY = 1.;
-        if(textureAspect > screenAspect )
-            scaleX = screenAspect / textureAspect;
-        else
-            scaleY = textureAspect / screenAspect;
-        UV = vec2(scaleX, scaleY) * (UV - 0.5) + 0.5;
-    }
-
-    float t = T * .2 * u_speed;
-
-    float rainAmount = u_intensity;
-
-    float zoom = u_panning ? -cos(T * .2) : 0.;
-    uv *= (.7 + zoom * .3) * u_zoom;
-
-    float staticDrops = S(-.5, 1., rainAmount) * 2.;
-    float layer1 = S(.25, .75, rainAmount);
-    float layer2 = S(.0, .5, rainAmount);
-
-    vec2 c = Drops(uv, t, staticDrops, layer1, layer2);
-    #ifdef CHEAP_NORMALS
-    vec2 n = vec2(dFdx(c.x), dFdy(c.x));// cheap normals (3x cheaper, but 2 times shittier ;))
-    #else
-    vec2 e = vec2(.001, 0.) * u_normal;
-    float cx = Drops(uv + e, t, staticDrops, layer1, layer2).x;
-    float cy = Drops(uv + e.yx, t, staticDrops, layer1, layer2).x;
-    vec2 n = vec2(cx - c.x, cy - c.x);		// expensive normals
-    #endif
-
-    vec3 col = texture2D(u_tex0, UV + n).rgb;
-    vec4 texCoord = vec4(UV.x + n.x, UV.y + n.y, 0, 1.0 * 25. * 0.01 / 7.);
-
-    // Calculate the distance from the current pixel to the mouse position
-    float distToMouse = length(UV - u_mouse_position);
+    // We use vUv (0-1 range) for our base coordinates since they're normalized to the plane
+    vec2 uv = vUv;
     
-    // Create a smooth falloff for the clear area
+    // Convert to centered coordinates (-0.5 to 0.5 range)
+    vec2 centeredUV = uv - 0.5;
+    
+    // Calculate aspect ratios
+    float planeAspect = u_plane_size.x / u_plane_size.y;
+    float screenAspect = u_resolution.x / u_resolution.y;
+    float textureAspect = u_tex0_resolution.x / u_tex0_resolution.y;
+    
+    // Calculate real-world scale factor
+    // This makes the rain effect scale with the plane size
+    float scaleFactor = 1.0 / (u_plane_size.y * u_world_scale);
+    
+    // Prepare UV for rain effect
+    vec2 rainUV = centeredUV;
+    rainUV.x *= planeAspect; // Maintain aspect ratio
+    rainUV *= scaleFactor * 10.0; // Scale based on plane size
+    
+    // UV for texture sampling
+    vec2 textureUV = uv;
+    
+    // Apply texture fill logic if needed
+    if(u_texture_fill) {
+        float texScaleX = 1.0, texScaleY = 1.0;
+        if(textureAspect > planeAspect) {
+            texScaleX = planeAspect / textureAspect;
+        } else {
+            texScaleY = textureAspect / planeAspect;
+        }
+        textureUV = vec2(texScaleX, texScaleY) * (uv - 0.5) + 0.5;
+    }
+    
+    float T = u_time;
+    float t = T * 0.2 * u_speed;
+    float rainAmount = u_intensity;
+    
+    float zoom = u_panning ? -cos(T * 0.2) : 0.0;
+    rainUV *= (0.7 + zoom * 0.3) * u_zoom;
+    
+    float staticDrops = S(-0.5, 1.0, rainAmount) * 2.0;
+    float layer1 = S(0.25, 0.75, rainAmount);
+    float layer2 = S(0.0, 0.5, rainAmount);
+    
+    vec2 c = Drops(rainUV, t, staticDrops, layer1, layer2);
+    
+    // Calculate normals for the rain effect
+    vec2 e = vec2(0.001, 0.0) * u_normal;
+    float cx = Drops(rainUV + e, t, staticDrops, layer1, layer2).x;
+    float cy = Drops(rainUV + e.yx, t, staticDrops, layer1, layer2).x;
+    vec2 n = vec2(cx - c.x, cy - c.x);
+    
+    // Scale the normal effect based on the plane size
+    n *= min(1.0, 5.0 / u_plane_size.y);
+    
+    // Sample the texture with the distorted UVs
+    vec3 col = texture2D(u_tex0, textureUV + n).rgb;
+    
+    // Calculate distance to mouse (for clear spot effect)
+    float distToMouse = length(textureUV - u_mouse_position);
     float clearFactor = 1.0 - smoothstep(u_clear_radius - u_clear_edge_softness, 
                                         u_clear_radius + u_clear_edge_softness, 
                                         distToMouse);
-                                        
-    // Apply adjusted blur based on distance to mouse
+    
+    // Apply blur based on distance to mouse
     float adjustedBlurIntensity = u_blur_intensity * (1.0 - clearFactor * u_clear_blur_reduction);
     float blur = adjustedBlurIntensity;
     
-    // Also reduce the normal displacement in the clear area
+    // Reduce normal displacement in clear area
     n *= (1.0 - clearFactor * 0.8);
-    texCoord = vec4(UV.x + n.x, UV.y + n.y, 0, 1.0 * 25. * 0.01 / 7.);
-
+    
+    // Apply blur effect
     if(u_blur_iterations != 1) {
         blur *= 0.01;
         float a = N21(gl_FragCoord.xy) * 6.2831;
@@ -189,31 +206,33 @@ void main() {
             if(m > u_blur_iterations)
                 break;
             vec2 offs = vec2(sin(a), cos(a)) * blur;
-            float d = fract(sin((float(m) + 1.) * 546.) * 5424.);
+            float d = fract(sin((float(m) + 1.0) * 546.0) * 5424.0);
             d = sqrt(d);
             offs *= d;
-            col += texture2D(u_tex0, texCoord.xy + vec2(offs.x, offs.y)).xyz;
+            col += texture2D(u_tex0, textureUV + n + offs).xyz;
             a++;
         }
         col /= float(u_blur_iterations);
     }
-
-    t = (T + 3.) * .5;			// make time sync with first lightning
+    
+    // Apply post-processing effects
+    t = (T + 3.0) * 0.5;
     if(u_post_processing) {
-        //float colFade = sin(t * .2) * .5 + .5;
-        col *= mix(vec3(1.), vec3(.8, .9, 1.3), 1.);	// subtle color shift
+        col *= mix(vec3(1.0), vec3(0.8, 0.9, 1.3), 1.0);
     }
-    float fade = S(0., 10., T);							// fade in at the start
-
+    
+    float fade = S(0.0, 10.0, T);
+    
     if(u_lightning) {
-        float lightning = sin(t * sin(t * 10.));			// lighting flicker
-        lightning *= pow(max(0., sin(t + sin(t))), 10.);		// lightning flash
-        col *= 1. + lightning * fade * mix(1., .1, 0.);	// composite lightning
+        float lightning = sin(t * sin(t * 10.0));
+        lightning *= pow(max(0.0, sin(t + sin(t))), 10.0);
+        col *= 1.0 + lightning * fade * mix(1.0, 0.1, 0.0);
     }
-    col *= 1. - dot(UV -= .5, UV) * 1.; // vignette
-
-    // Optional: Visualize the clear area for debugging
-    // col = mix(col, col + vec3(0.2, 0.0, 0.0), clearFactor * 0.3);
-
-    gl_FragColor = vec4(col * u_brightness, 1);
-}`
+    
+    // Apply vignette effect
+    vec2 vignetteUV = textureUV - 0.5;
+    col *= 1.0 - dot(vignetteUV, vignetteUV) * 1.0;
+    
+    gl_FragColor = vec4(col * u_brightness, 1.0);
+}
+`

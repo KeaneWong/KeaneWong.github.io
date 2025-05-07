@@ -12,12 +12,14 @@ import {WindowView} from "../WindowView.tsx";
 
 
 export interface RainyWindowPropsType {
+    worldScale?: number
 }
 
-const devicePixelRatio = window.devicePixelRatio || 1;
 
 export const RainyWindow = (
-    {}: RainyWindowPropsType) => {
+    {
+        worldScale = 1.0
+    }: RainyWindowPropsType) => {
     extend({RainMaterial})
 
 
@@ -44,34 +46,39 @@ export const RainyWindow = (
             // Update time uniform
             materialRef.current.uniforms.u_time.value = state.clock.getElapsedTime()
 
-            // // Update resolution when viewport changes
-            // materialRef.current.uniforms.u_resolution.value.set(
-            //     size.width * devicePixelRatio,
-            //     size.height * devicePixelRatio
-            // )
-
         }
-        materialRef.current.uniforms.u_tex0_resolution.value.set(
-            1900,
-            1200,
-        )
 
     })
 
-    // Set up texture when component mounts
+    const width = 4
+    const height = 2
+
+    // Update resolution when canvas is resized
     useEffect(() => {
-        if (materialRef.current && windowRenderTarget) {
-            materialRef.current.uniforms.u_tex0.value = windowRenderTarget.texture;
+
+        if (materialRef.current) {
+
+            if (windowRenderTarget) {
+                // windowRenderTarget.texture.wrapT = windowRenderTarget.texture.wrapS = THREE.RepeatWrapping
+
+                materialRef.current.uniforms.u_tex0.value = windowRenderTarget.texture;
+                materialRef.current.uniforms.u_tex0_resolution.value.set(
+                    windowRenderTarget.texture.image.width,
+                    windowRenderTarget.texture.image.height,
+                )
+                // Set the plane size - this is the key addition
+            }
+            // materialRef.current.uniforms.u_resolution.value.set(size.width, size.height)
+            materialRef.current.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight)
+
+            materialRef.current.uniforms.u_plane_size.value.set(width, height)
+
+
         } else {
             console.log("ERROR: Nullish values ", materialRef.current, windowRenderTarget)
         }
-    }, [])
-    // Update resolution when canvas is resized
-    useEffect(() => {
-        if (materialRef.current) {
-            materialRef.current.u_resolution.set(size.width, size.height)
-        }
-    }, [size])
+
+    }, [size, width, height, worldScale])
 
     // Load texture using drei's useTexture hook
 
@@ -81,7 +88,8 @@ export const RainyWindow = (
         >
             {/* Use a plane that fills the entire view */}
             <planeGeometry
-                args={[1.19, 1.12]}
+                args={[width, height]}
+
 
             />
             <WindowView
@@ -90,24 +98,16 @@ export const RainyWindow = (
             />
             <rainMaterial
                 ref={materialRef}
-                u_resolution={
-                    windowRenderTarget !== null ?
-                        (new THREE.Vector2(
-                            windowRenderTarget.width,
-                            windowRenderTarget.height
-                        )) :
-                        undefined}
-                u_intensity={0.5}
+                u_intensity={0.7}
                 u_speed={0.3}
-                u_blur_intensity={4}
-                u_zoom={1.2}
-                u_blur_iterations={16} // Reduced from 16 for better performance
-                // transparent={true}
+                u_zoom={0.05}
+                u_blur_intensity={0.5}
+                u_blur_iterations={12}
                 u_mouse_position={new THREE.Vector2(...mousePosition)}
-                u_clear_radius={1}
+                u_clear_radius={.25}
+                u_brightness={0.8}
                 u_clear_edge_softness={0.05}
                 u_clear_blur_reduction={1}
-
             />
         </mesh>
     )
