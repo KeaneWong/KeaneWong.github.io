@@ -34,12 +34,7 @@ export const MainToolbar = () => {
             disableGutters
         >
             <Box>
-                <Button>
-                    Hello
-                </Button>
-                <Button>
-                    Hello
-                </Button>
+
             </Box>
             <Box
 

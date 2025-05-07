@@ -6,7 +6,6 @@ import
     extend,
 } from '@react-three/fiber'
 import {useFBO, useTexture} from '@react-three/drei'
-import {Scene, Texture,} from 'three';
 import {useRef, useEffect, useState} from 'react'
 import RainMaterial from "./RainMaterial.tsx"
 import {WindowView} from "../WindowView.tsx";
@@ -14,24 +13,17 @@ import {WindowView} from "../WindowView.tsx";
 extend({RainMaterial})
 
 export interface RainyWindowPropsType {
-    backgroundTexture: string;
 }
 
 const devicePixelRatio = window.devicePixelRatio || 1;
 
-
 export const RainyWindow = (
-    {
-        backgroundTexture
-
-    }: RainyWindowPropsType) => {
+    {}: RainyWindowPropsType) => {
 
     const materialRef = useRef<THREE.ShaderMaterial>(null)
     const {size, viewport} = useThree()
     const windowRenderTarget = useFBO();
 
-    // Load texture using drei's useTexture hook
-    const texture: Texture = useTexture(backgroundTexture)
     const [mousePosition, setMousePosition] = useState([0.5, 0.5])
     // Track mouse position
     useEffect(() => {
@@ -56,13 +48,6 @@ export const RainyWindow = (
                 size.width * devicePixelRatio,
                 size.height * devicePixelRatio)
 
-            // Update texture resolution when texture is loaded
-            if (texture?.image) {
-                materialRef.current.uniforms.u_tex0_resolution.value.set(
-                    texture.image.width,
-                    texture.image.height
-                )
-            }
         }
     })
 
@@ -83,11 +68,11 @@ export const RainyWindow = (
 
 
     return (
-        <mesh
-        >
+        <mesh>
             {/* Use a plane that fills the entire view */}
             <planeGeometry
                 args={[viewport.width, viewport.height]}
+
             />
             <WindowView
                 windowRenderTarget={windowRenderTarget}
@@ -106,7 +91,7 @@ export const RainyWindow = (
                 u_blur_iterations={16} // Reduced from 16 for better performance
                 // transparent={true}
                 u_mouse_position={new THREE.Vector2(...mousePosition)}
-                u_clear_radius={0.25}
+                u_clear_radius={1}
                 u_clear_edge_softness={0.05}
                 u_clear_blur_reduction={1}
 

@@ -4,6 +4,8 @@ import * as THREE from "three"
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import MyFont from "../assets/fonts/VeraMono.ttf"
 import {useInterval} from "./useInterval.tsx";
+import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
+
 const fontName = 'VeraMono'
 const fontPath = "src/assets/fonts/" + fontName + ".json";
 
@@ -22,13 +24,15 @@ export const WorldBehindWindow = ({
     //     gl.render(virtualScene, virtualCameraRef.current)
     //     gl.setRenderTarget(null)
     // })
-    const [curText, setCurText] = useState("fe")
-    const [curCursor, setCurCursor] = useState("|")
+    // const [curText, setCurText] = useState("fe")
+    // const [curCursor, setCurCursor] = useState("|")
+    //
+    //
+    // useInterval(()=>{
+    //         setCurCursor(cursor => cursor === "|" ? `\xa0` : "|")
+    // }, 1000)
 
-
-    useInterval(()=>{
-            setCurCursor(cursor => cursor === "|" ? `\xa0` : "|")
-    }, 1000)
+    const {realString, textLocation, textProps} = useBackgroundText()
 
     useEffect(() => {
     }, []);
@@ -42,14 +46,11 @@ export const WorldBehindWindow = ({
             {/*    <meshStandardMaterial color={"hotpink"}/>*/}
             {/*</mesh>*/}
             <Text
+                position={[...textLocation]}
                 font={MyFont}
-                fontSize={0.2}
-                color="black"
-                anchorX="center"
-                anchorY="middle"
-                letterSpacing={-.1}
+                {...textProps}
             >
-                {curText + curCursor}
+                {realString}
             </Text>
 
         </>

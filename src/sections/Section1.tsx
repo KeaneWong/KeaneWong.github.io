@@ -4,13 +4,17 @@ import {
     SxProps
 } from "@mui/material"
 
-export interface PageOverlayPropsType{
+export interface PageOverlayPropsType {
     sx?: SxProps
 }
 
-export const  PageOverlay = ({
-    sx={}
-                             }) =>{
+export const Section1 = ({
+                             sx = {
+                                 width: '100vw',
+                                 height: '100vh',
+
+                             }
+                         }) => {
 
     return (
         <Box
@@ -18,9 +22,11 @@ export const  PageOverlay = ({
                 ...sx,
             }}
         >
+
             <Typography variant={"h1"}>
                 KeaneWong
             </Typography>
+
         </Box>
     )
 }

@@ -18,8 +18,8 @@ export const BackgroundCanvas = () => {
     const [y, setY] = useState(0)
     useEffect(() => {
         const PanMovement = (event) => {
-            const newX = (window.innerWidth - event.pageX * PARALLAX)/90;
-            const newY = (window.innerHeight - event.pageY * PARALLAX)/90;
+            const newX = (window.innerWidth - event.pageX * PARALLAX) / 90;
+            const newY = (window.innerHeight - event.pageY * PARALLAX) / 90;
             setX(newX)
             setY(newY)
         }
@@ -31,6 +31,8 @@ export const BackgroundCanvas = () => {
         }
 
     }, [])
+    const cameraZ = 10
+    const fov = 75
     return (
         <div
             style={{
@@ -46,30 +48,31 @@ export const BackgroundCanvas = () => {
                 style={{
                     width: '100%',
                     height: '100%',
-                // transform: `translateX(${x}px) translateY(${y}px) scale(1.09) `,
+                    transform: `translateX(${x}px) translateY(${y}px) scale(1.09) `,
 
                 }}
             >
 
-            <Canvas>
-                <OrthographicCamera
-                    // makeDefault
-                    // position={[-1,0,0]}
-                    // fov={75}
-                    // aspect={1920/1200}
-                    // near={0.1}
-                    // far={10}
-                    left={-1}
-                    right={1}
-                    top={1}
-                    bottom={-1}
-                    near={0}
-                    far={1}
-                />
-                <RainyWindow
-                    backgroundTexture={Hippos}
-                />
-            </Canvas>
+                <Canvas>
+                    <OrthographicCamera
+                        // makeDefault
+                        // position={[-1,0,0]}
+                        // fov={75}
+                        // aspect={1920/1200}
+                        // near={0.1}
+                        // far={10}
+                        left={-1}
+                        right={1}
+                        top={1}
+                        bottom={-1}
+                        near={0}
+                        far={1}
+
+                    />
+                    <RainyWindow
+
+                    />
+                </Canvas>
 
             </div>
         </div>

@@ -1,12 +1,10 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import {BackgroundCanvas} from "./components/BackgroundCanvas.tsx";
-import {PageOverlay} from "./components/PageOverlay.tsx";
-import {HeadSection} from "./components/HeadSection.tsx";
+import {Section1} from "./sections/Section1.tsx";
+import {HeadSection} from "./sections/HeadSection.tsx";
 import {MainToolbar} from "./components/MainToolbar.tsx";
-import {WindowRevealer} from "./components/WindowRevealer.tsx";
 import {EyeOpener} from "./components/EyeOpener.tsx";
+import {BackgroundTextProvider} from "./contexts/BackgroundTextContext.tsx";
 
 function App() {
 
@@ -18,21 +16,20 @@ function App() {
         >
             {/*<WindowRevealer/>*/}
             <EyeOpener/>
-            <MainToolbar/>
-            <div
-                style={{
-                    height: "1000px"
-                }}
-            >
-                <HeadSection/>
+            <BackgroundTextProvider>
 
-                <BackgroundCanvas/>
-                <PageOverlay/>
+                <MainToolbar/>
+                <div
+                    style={{
+                        height: "1000px"
+                    }}
+                >
+                    <HeadSection/>
+                    <BackgroundCanvas/>
+                    <Section1/>
 
-
-            </div>
-
-
+                </div>
+            </BackgroundTextProvider>
         </div>
     )
 }
