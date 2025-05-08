@@ -21,7 +21,7 @@ function App() {
                 <MainToolbar/>
                 <div
                     style={{
-                        height: "1000px"
+
                     }}
                 >
                     <HeadSection/>

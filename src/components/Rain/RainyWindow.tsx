@@ -9,6 +9,7 @@ import {useFBO, useTexture} from '@react-three/drei'
 import {useRef, useEffect, useState} from 'react'
 import RainMaterial from "./RainMaterial.tsx"
 import {WindowView} from "../WindowView.tsx";
+import {WindowSill} from "./WindowSill.tsx";
 
 
 export interface RainyWindowPropsType {
@@ -80,35 +81,42 @@ export const RainyWindow = (
 
     }, [size, width, height, worldScale])
 
+
     // Load texture using drei's useTexture hook
 
 
     return (
-        <mesh
-        >
-            {/* Use a plane that fills the entire view */}
-            <planeGeometry
-                args={[width, height]}
+        <>
+            <WindowSill
+                windowDimensions={[width, height]}
+                windowPosition={[-.75, 0, 1]}
+            />
+            <mesh
+                position={[-.75, 0, 1]}
+            >
+                {/* Use a plane that fills the entire view */}
+                <planeGeometry
+                    args={[width, height]}
 
-
-            />
-            <WindowView
-                windowRenderTarget={windowRenderTarget}
-                // textureRef={textureRef}
-            />
-            <rainMaterial
-                ref={materialRef}
-                u_intensity={0.7}
-                u_speed={0.3}
-                u_zoom={0.05}
-                u_blur_intensity={0.5}
-                u_blur_iterations={12}
-                u_mouse_position={new THREE.Vector2(...mousePosition)}
-                u_clear_radius={.25}
-                u_brightness={0.8}
-                u_clear_edge_softness={0.05}
-                u_clear_blur_reduction={1}
-            />
-        </mesh>
+                />
+                <WindowView
+                    windowRenderTarget={windowRenderTarget}
+                    // textureRef={textureRef}
+                />
+                <rainMaterial
+                    ref={materialRef}
+                    u_intensity={0.7}
+                    u_speed={0.3}
+                    u_zoom={0.05}
+                    u_blur_intensity={0.5}
+                    u_blur_iterations={12}
+                    u_mouse_position={new THREE.Vector2(...mousePosition)}
+                    u_clear_radius={.25}
+                    u_brightness={0.8}
+                    u_clear_edge_softness={0.05}
+                    u_clear_blur_reduction={1}
+                />
+            </mesh>
+        </>
     )
 }
