@@ -55,15 +55,19 @@ export const BackgroundCanvas = () => {
                     <CameraWrapper/>
                     <RainyWindow
                     />
-                    {/*<ambientLight*/}
-                    {/*    color={"#fff"}*/}
-                    {/*    intensity={1}*/}
-                    {/*/>*/}
-                    <pointLight
-                        position={[-1,2,3]}
-                        intensity={15}
-
+                    <ambientLight
                         color={"#fff"}
+                        intensity={.2}
+                    />
+                    {/*<pointLight*/}
+                    {/*    position={[-.75,0,2]}*/}
+                    {/*    intensity={10}*/}
+
+                    {/*    color={"#F4EDC6 "}*/}
+                    {/*/>*/}
+                    <directionalLight
+                        position={-.75,0,3}
+
                     />
                 </Canvas>
 

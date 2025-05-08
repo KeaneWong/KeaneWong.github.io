@@ -84,15 +84,20 @@ export const RainyWindow = (
 
     // Load texture using drei's useTexture hook
 
+    const windowPosition = [-.3, 0, 1]
+
+    const {camera} = useThree()
+
+    camera.lookAt(...windowPosition)
 
     return (
         <>
             <WindowSill
                 windowDimensions={[width, height]}
-                windowPosition={[-.75, 0, 1]}
+                windowPosition={windowPosition}
             />
             <mesh
-                position={[-.75, 0, 1]}
+                position={windowPosition}
             >
                 {/* Use a plane that fills the entire view */}
                 <planeGeometry
