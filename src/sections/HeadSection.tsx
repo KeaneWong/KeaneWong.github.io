@@ -1,51 +1,55 @@
-import {
-    useRef,
-    useEffect,
-} from 'react'
-import {Box, Typography} from "@mui/material"
+import {Box, Typography, TypographyProps} from "@mui/material"
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
-import {isElementXPercentInViewport} from "../utils.ts";
+import {useInView} from "react-intersection-observer"
+import Me from "../assets/Subject.png"
+
+export const SubCaption = ({
+                               sx,
+                               ...rest
+                           }: TypographyProps) => {
+    return (
+        <Typography
+            variant={"h4"}
+            {...rest}
+            sx={{
+                textAlign: 'end',
+                ...sx
+            }}
+        >
+
+        </Typography>
+    )
+}
+
 
 export const HeadSection = () => {
-    const divRef = useRef<HTMLDivElement>(null);
     const {
-        targetString,
         setTargetString,
         setTextLocation,
         setTextProps
     } = useBackgroundText();
-    const newString = "Through the Looking glass\n" +
-        "Wanting to be somewhere else\n" +
-        "She grew wings and begun to fly."
+    const newString =
+        "It never rains in Southern California, which\n" +
+        "makes it all the more special when\n" +
+        "it finally comes back."
 
-    function changeText() {
-        setTextProps((oldProps) => ({
-            ...oldProps,
-            fontSize: 0.1,
-        }))
-        setTargetString(newString)
-        setTextLocation([-1.3, 1.0, 0])
+    function changeText(inView: boolean,) {
+        if (inView) {
+            setTextProps((oldProps) => ({
+                ...oldProps,
+                fontSize: 0.1,
+            }))
+            setTargetString(newString)
+            setTextLocation([-1.3, 1.0, 0])
+        }
     }
 
-    function detectScrollIntoView() {
-        if (targetString !== newString) {
-            if (isElementXPercentInViewport(
-                divRef.current, 75)) {
-                changeText()
-            }
-        }
+    const {ref} = useInView({
+        threshold: 0.75,
+        onChange: changeText
+    });
 
-    }
 
-    useEffect(() => {
-
-        changeText()
-
-        document.addEventListener("scroll", detectScrollIntoView)
-        return () => {
-            document.removeEventListener("scroll", detectScrollIntoView)
-        }
-    }, [])
     return (
         <Box
             sx={{
@@ -54,16 +58,46 @@ export const HeadSection = () => {
                 height: '100vh',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'end'
-                // mt: 4,
+                justifyContent: 'end',
+
             }}
-            ref={divRef}
+            ref={ref}
         >
-            <Typography
-                variant={'h1'}
+
+            <Box
+                sx={{
+                    display: 'block',
+                    pr: 2,
+                    zIndex: 1,
+                }}
             >
-                Keane Wong
-            </Typography>
+                <Typography
+                    variant={'h2'}
+                    sx={{
+                        textAlign: 'right'
+                    }}
+                >
+                    Hello there, I'm
+                </Typography>
+                <Typography
+                    variant={'h1'}
+                    sx={{
+                        textAlign: 'right',
+                        py: 2,
+                    }}
+                >
+                    Keane
+                </Typography>
+                <SubCaption>
+                    and I build applications, design
+                </SubCaption>
+                <SubCaption>
+                    websites, and develop research tools. And, I'm
+                </SubCaption>
+                <SubCaption>
+                    obsessed with the intersection of creativity and engineering.
+                </SubCaption>
+            </Box>
         </Box>
     )
 }

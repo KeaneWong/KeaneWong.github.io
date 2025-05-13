@@ -42,7 +42,7 @@ const QuoteRemover = keyframes`
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 10em;
+        //font-size: 10em;
         opacity: 1;
     }
     31% {
@@ -129,7 +129,7 @@ export const EyeOpener = () => {
         <>
             <Top/>
             <Bottom/>
-            {/*<Quote>{quote}</Quote>*/}
+            <Quote>{quote}</Quote>
 
         </>
     )

@@ -16,6 +16,12 @@ export interface RainyWindowPropsType {
     worldScale?: number
 }
 
+function isTouchDevice() {
+  return (('ontouchstart' in window) ||
+     (navigator.maxTouchPoints > 0) ||
+     (navigator.msMaxTouchPoints > 0));
+}
+
 
 export const RainyWindow = (
     {
@@ -51,8 +57,8 @@ export const RainyWindow = (
 
     })
 
-    const width = 4
-    const height = 2
+    const width = 4.5
+    const height = 3
 
     // Update resolution when canvas is resized
     useEffect(() => {
@@ -84,11 +90,11 @@ export const RainyWindow = (
 
     // Load texture using drei's useTexture hook
 
-    const windowPosition = [-.3, 0, 1]
+    const windowPosition = [1, 0, 1]
 
     const {camera} = useThree()
 
-    camera.lookAt(...windowPosition)
+    camera.lookAt(windowPosition[0]+.6, windowPosition[1]-.4, windowPosition[2])
 
     return (
         <>
@@ -116,10 +122,11 @@ export const RainyWindow = (
                     u_blur_intensity={0.5}
                     u_blur_iterations={12}
                     u_mouse_position={new THREE.Vector2(...mousePosition)}
-                    u_clear_radius={.25}
+                    u_clear_radius={isTouchDevice() ? 1 : .25}
                     u_brightness={0.8}
                     u_clear_edge_softness={0.05}
                     u_clear_blur_reduction={1}
+                    // u_lightning={true}
                 />
             </mesh>
         </>

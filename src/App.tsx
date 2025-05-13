@@ -11,7 +11,7 @@ function App() {
     return (
         <div
             style={{
-                height: "10000px"
+                // height: "10000px"
             }}
         >
             {/*<WindowRevealer/>*/}

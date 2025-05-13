@@ -19,7 +19,7 @@ export const WindowSill = ({
                                windowPosition
                            }: WindowSillPropsType) => {
 
-    const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useLoader(
+    const [colorMap, _, normalMap, roughnessMap, aoMap] = useLoader(
         THREE.TextureLoader,
         [
             CoMap,
@@ -33,10 +33,14 @@ export const WindowSill = ({
     useEffect(() => {
 
     }, [windowDimensions]);
-    const barThickness = 0.2
-    const sideDimensions = [barThickness, windowDimensions[1], barThickness];
-    const topLengthRatio = 1.2
-    const bottomBarDepth = 0.5
+    const barWidth = 0.3
+    const barThickness = 0.5
+    const sideDimensions = [
+        barWidth ,
+        windowDimensions[1],
+        barThickness];
+    const topLengthRatio = 1
+    const bottomBarDepth = 1.2
     return (
         <group
             position={windowPosition}
@@ -54,7 +58,6 @@ export const WindowSill = ({
                 />
                 <meshStandardMaterial
                     map={colorMap}
-                    // displacementMap={displacementMap}
                     normalMap={normalMap}
                     roughnessMap={roughnessMap}
                     aoMap={aoMap}
@@ -73,7 +76,6 @@ export const WindowSill = ({
                 />
                 <meshStandardMaterial
                     map={colorMap}
-                    // displacementMap={displacementMap}
                     normalMap={normalMap}
                     roughnessMap={roughnessMap}
                     aoMap={aoMap}
@@ -84,7 +86,7 @@ export const WindowSill = ({
                 //top bar
                 position={[
                     0,
-                    (windowDimensions[1]/2) + barThickness/2,
+                    (windowDimensions[1]/2) + barWidth/2,
                     0,
                 ]}
                 rotation={[
@@ -92,18 +94,16 @@ export const WindowSill = ({
                     0,
                     Math.PI / 2
                 ]}
-
             >
                 <boxGeometry
                     args={[
-                        sideDimensions[0]*topLengthRatio,
-                        windowDimensions[0]*1.1,
+                        sideDimensions[0],
+                        windowDimensions[0] * 1.1,
                         barThickness
                     ]}
                 />
                 <meshStandardMaterial
                     map={colorMap}
-                    // displacementMap={displacementMap}
                     normalMap={normalMap}
                     roughnessMap={roughnessMap}
                     aoMap={aoMap}
@@ -113,7 +113,7 @@ export const WindowSill = ({
                 // bottom bar, ledge
                 position={[
                     0,
-                    -((windowDimensions[1]/2) + barThickness/2),
+                    -((windowDimensions[1]/2) + barWidth/2),
                     0,
                 ]}
                 rotation={[
@@ -132,7 +132,6 @@ export const WindowSill = ({
                 />
                 <meshStandardMaterial
                     map={colorMap}
-                    // displacementMap={displacementMap}
                     normalMap={normalMap}
                     roughnessMap={roughnessMap}
                     aoMap={aoMap}

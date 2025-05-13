@@ -10,6 +10,8 @@ import
 
 } from '@react-three/fiber'
 import {CameraWrapper} from "./CameraWrapper.tsx";
+import { BackWall } from './Rain/BackWall.tsx';
+import {DirectionLightWrapper} from "./DirectionLightWrapper.tsx";
 
 const PARALLAX = 3
 
@@ -55,9 +57,12 @@ export const BackgroundCanvas = () => {
                     <CameraWrapper/>
                     <RainyWindow
                     />
+                    <BackWall
+                        position={[0,0,0]}
+                    />
                     <ambientLight
                         color={"#fff"}
-                        intensity={.2}
+                        intensity={.4}
                     />
                     {/*<pointLight*/}
                     {/*    position={[-.75,0,2]}*/}
@@ -65,10 +70,7 @@ export const BackgroundCanvas = () => {
 
                     {/*    color={"#F4EDC6 "}*/}
                     {/*/>*/}
-                    <directionalLight
-                        position={-.75,0,3}
-
-                    />
+                    <DirectionLightWrapper/>
                 </Canvas>
 
             </div>
