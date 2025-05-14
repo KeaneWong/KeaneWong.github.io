@@ -106,7 +106,7 @@ export const Section1 = ({
     const newString =
         "In my free time, I make custom music instruments\n" +
         "(though I can't play), make indie games\n" +
-        "and write fantasy stories"
+        "and write fantasy stories."
 
     function changeText(inView: boolean,) {
         if (inView) {
@@ -196,7 +196,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Professional products from scratch."
+                                        "Tried it once and was Hooked ever since."
                                     }
                                 >React</Item>
                             </Grid>
@@ -210,14 +210,16 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Including MySQL, PostgreSQL, and SQLite."
+                                        <>Query on, My<sub
+
+                                        ><small>SQL</small></sub> wayward son...</>
                                     }
                                 >SQL</Item>
                             </Grid>
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Billions of data points analyzed, and used in published research."
+                                        "Large-scale data analyzed and used in published research."
                                     }
                                 >Data Analysis</Item>
                             </Grid>
@@ -231,7 +233,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Amazon Web Services (AWS), and Google Cloud Platform (GCP)"}
+                                        "Production level services on Google Cloud Platform (GCP) and AWS."}
                                 >Cloud Engineering</Item>
                             </Grid>
                             <Grid size={6}>
@@ -259,7 +261,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Experience with HTTP RESTful API, and Real Time Protocols."
+                                        "Including HTTP RESTful APIs, and Real Time Protocols."
                                     }
                                 >Full Stack</Item>
                             </Grid>
