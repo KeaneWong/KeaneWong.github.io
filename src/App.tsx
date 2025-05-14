@@ -5,6 +5,8 @@ import {HeadSection} from "./sections/HeadSection.tsx";
 import {MainToolbar} from "./components/MainToolbar.tsx";
 import {EyeOpener} from "./components/EyeOpener.tsx";
 import {BackgroundTextProvider} from "./contexts/BackgroundTextContext.tsx";
+import {Section2} from "./sections/Section2.tsx";
+import {ShipControllerProvider} from "./contexts/ShipControllerContext.tsx";
 
 function App() {
 
@@ -17,18 +19,19 @@ function App() {
             {/*<WindowRevealer/>*/}
             <EyeOpener/>
             <BackgroundTextProvider>
+                <ShipControllerProvider>
 
-                <MainToolbar/>
-                <div
-                    style={{
+                    <MainToolbar/>
+                    <div
+                        style={{}}
+                    >
+                        <HeadSection/>
+                        <BackgroundCanvas/>
+                        {/*<Section1/>*/}
+                        <Section2/>
 
-                    }}
-                >
-                    <HeadSection/>
-                    <BackgroundCanvas/>
-                    <Section1/>
-
-                </div>
+                    </div>
+                </ShipControllerProvider>
             </BackgroundTextProvider>
         </div>
     )

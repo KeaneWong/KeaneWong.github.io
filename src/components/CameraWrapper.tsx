@@ -8,11 +8,12 @@ export const CameraWrapper = () => {
         <PerspectiveCamera
             makeDefault
             // position={[-1.8,0, 4]}
-            position={[1, -0.3, 5]}
+            // position={[1, -0.3, 5]}
+            position={[1.5, -.4,4]}
             fov={55}
             aspect={viewport.width / viewport.height}
             near={0.1}
-            // lookAt={[0, 0, 0]}
+            lookAt={[1.5, -.9, 0]}
 
         />
     )

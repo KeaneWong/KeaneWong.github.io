@@ -92,9 +92,9 @@ export const RainyWindow = (
 
     const windowPosition = [1, 0, 1]
 
-    const {camera} = useThree()
+    // const {camera} = useThree()
 
-    camera.lookAt(windowPosition[0]+.6, windowPosition[1]-.4, windowPosition[2])
+    // camera.lookAt(windowPosition[0]+.6, windowPosition[1]-.4, windowPosition[2])
 
     return (
         <>
@@ -122,7 +122,7 @@ export const RainyWindow = (
                     u_blur_intensity={0.5}
                     u_blur_iterations={12}
                     u_mouse_position={new THREE.Vector2(...mousePosition)}
-                    u_clear_radius={isTouchDevice() ? 1 : .25}
+                    u_clear_radius={isTouchDevice() ? 1 : .35}
                     u_brightness={0.8}
                     u_clear_edge_softness={0.05}
                     u_clear_blur_reduction={1}

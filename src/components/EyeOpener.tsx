@@ -2,7 +2,8 @@ import {Box} from "@mui/material"
 import {keyframes, css, styled} from "styled-components";
 import {useEffect, useState} from "react";
 
-const animationTime = '5s'
+export const animationTimeSeconds=5
+export const animationTime = `${animationTimeSeconds}s`
 const OpeningEyes = keyframes`
     0% {
         --eyeOpen: 0%;

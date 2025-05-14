@@ -7,7 +7,7 @@ import {
     Dispatch,
     SetStateAction,
 } from 'react';
-import useTypewriter from "react-typewriter-hook"
+import useTypewriter from "../components/typewriter/useTypewriter.ts"
 import {useInterval} from "../components/useInterval.tsx";
 import {TextProps} from "@react-three/drei"
 import MyFont from "../assets/fonts/VeraMono.ttf";

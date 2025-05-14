@@ -1,7 +1,16 @@
-import {Box, Typography, TypographyProps} from "@mui/material"
+import {
+    Box,
+    Typography,
+    TypographyProps,
+    Collapse,
+} from "@mui/material"
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer"
 import Me from "../assets/Subject.png"
+import {keyframes} from "@mui/system"
+import { animationTimeSeconds} from "../components/EyeOpener.tsx";
+import {useState, useEffect} from "react";
+
 
 export const SubCaption = ({
                                sx,
@@ -28,12 +37,20 @@ export const HeadSection = () => {
         setTextLocation,
         setTextProps
     } = useBackgroundText();
+    const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
+    const [eyeOpenFinished, setEyeOpenFinished] = useState(false);
+    useEffect(() => {
+        setTimeout(()=>{
+            setEyeOpenFinished(true);
+        }, animationTimeSeconds*1000 - 700)
+    }, [])
     const newString =
         "It never rains in Southern California, which\n" +
         "makes it all the more special when\n" +
         "it finally comes back."
 
     function changeText(inView: boolean,) {
+        setIsCurrentlyInView(inView);
         if (inView) {
             setTextProps((oldProps) => ({
                 ...oldProps,
@@ -48,7 +65,6 @@ export const HeadSection = () => {
         threshold: 0.75,
         onChange: changeText
     });
-
 
     return (
         <Box
@@ -79,15 +95,45 @@ export const HeadSection = () => {
                 >
                     Hello there, I'm
                 </Typography>
-                <Typography
-                    variant={'h1'}
+                <Box
                     sx={{
-                        textAlign: 'right',
-                        py: 2,
+                        display: 'flex',
+                        justifyContent: 'end',
                     }}
                 >
-                    Keane
-                </Typography>
+                    <Collapse
+                        // mountOnEnter={false}
+                        // in={false}
+                        in={isCurrentlyInView && eyeOpenFinished}
+                        orientation="horizontal"
+                        timeout={1000}
+                    >
+
+                        <Box
+                            sx={[
+                                {
+                                    background: "#fff",
+                                    color: 'black',
+                                    px: 2,
+                                    transition: "all 1s ease-out"
+                                },
+                                {
+                                    '&:hover': {
+                                        color: "white",
+                                    background: "#000",
+                                    },
+                                }
+                            ]}
+                        >
+                            <Typography
+                                variant={'h1'}
+
+                            >
+                                Keane
+                            </Typography>
+                        </Box>
+                    </Collapse>
+                </Box>
                 <SubCaption>
                     and I build applications, design
                 </SubCaption>
