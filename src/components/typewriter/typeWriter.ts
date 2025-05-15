@@ -55,8 +55,6 @@ export default class TypeWritter {
             !this.word ||
             this.nextWord.startsWith(this.word)
         )) {
-            // console.log(this.erasing, this.word)
-            console.log("restarting")
             return this.restartTypeWriter()
         }
         // erasing
@@ -90,9 +88,14 @@ export default class TypeWritter {
 
     public rd(): number {
         const r = Math.random()
+        if (this.erasing){
+            return r > 0.1 || r < 0.07
+            ? this.rd()
+            : r * 200
+        }
         return r > 0.1 || r < 0.07
             ? this.rd()
-            : r * 500
+            : r * 800
     }
 
 }

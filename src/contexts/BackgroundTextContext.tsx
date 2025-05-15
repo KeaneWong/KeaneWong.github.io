@@ -37,7 +37,9 @@ export const BackgroundTextProvider = ({children}: {
 
     const [targetString, setTargetString] = useState('feafaefa\nfeafeafea');
     const realishString = useTypewriter(targetString)
-    const [textLocation, setTextLocation] = useState<[number, number, number]>([0, 0, 0]);
+    const [textLocation, setTextLocation] = useState<[number, number, number]>(
+        [-1.0, 1.0, 0]
+    );
     const [textProps, setTextProps] = useState<Omit<TextProps, 'children'>>({
         fontSize: 0.2,
         color: "black",

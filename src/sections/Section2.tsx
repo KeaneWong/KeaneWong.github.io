@@ -26,9 +26,13 @@ export const Section2 = ({
         setTextProps
     } = useBackgroundText();
     const newString =
-        "In my free time, I make custom music instruments\n" +
-        "(though I can't play), make indie games\n" +
-        "and write fantasy stories."
+        "I live for the creative process. Outside of my\n" +
+        "work life I work on indie games, make\n" +
+        "handcrafted instruments, and\n" +
+        "write fantasy stories."
+
+    const newStingExtend = newString + "\n" +
+        "\n "
 
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
 
@@ -40,7 +44,7 @@ export const Section2 = ({
                 fontSize: 0.1,
             }))
             setTargetString(newString)
-            setTextLocation([-1.3, 1.0, 0])
+            // setTextLocation([-1.3, 1.0, 0])
         }
 
     }
@@ -60,6 +64,7 @@ export const Section2 = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
+                userSelect: 'none',
                 ...sx,
             }}
             ref={ref}
@@ -97,10 +102,12 @@ export const Section2 = ({
                         ]}
                     >
                         <Typography
-                            variant={'h1'}
-
+                            variant={'h2'}
+                            sx={{
+                                whiteSpace: 'nowrap'
+                            }}
                         >
-                            Placeholder
+                            Stuff I've done
                         </Typography>
                     </Box>
                 </Collapse>

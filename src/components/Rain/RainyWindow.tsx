@@ -118,15 +118,15 @@ export const RainyWindow = (
                     ref={materialRef}
                     u_intensity={0.7}
                     u_speed={0.3}
-                    u_zoom={0.05}
+                    u_zoom={0.12}
                     u_blur_intensity={0.5}
                     u_blur_iterations={12}
                     u_mouse_position={new THREE.Vector2(...mousePosition)}
                     u_clear_radius={isTouchDevice() ? 1 : .35}
-                    u_brightness={0.8}
+                    u_brightness={0.7}
                     u_clear_edge_softness={0.05}
                     u_clear_blur_reduction={1}
-                    // u_lightning={true}
+                    u_lightning={true}
                 />
             </mesh>
         </>

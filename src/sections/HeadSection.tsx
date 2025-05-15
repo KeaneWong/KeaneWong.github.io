@@ -6,9 +6,10 @@ import {
 } from "@mui/material"
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer"
-import Me from "../assets/Subject.png"
+// import Me from "../assets/Subject.png"
+import Me from "../assets/MySillhouette.tsx"
 import {keyframes} from "@mui/system"
-import { animationTimeSeconds} from "../components/EyeOpener.tsx";
+import {animationTimeSeconds} from "../components/EyeOpener.tsx";
 import {useState, useEffect} from "react";
 
 
@@ -18,7 +19,7 @@ export const SubCaption = ({
                            }: TypographyProps) => {
     return (
         <Typography
-            variant={"h4"}
+            variant={"h5"}
             {...rest}
             sx={{
                 textAlign: 'end',
@@ -40,9 +41,9 @@ export const HeadSection = () => {
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
     const [eyeOpenFinished, setEyeOpenFinished] = useState(false);
     useEffect(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
             setEyeOpenFinished(true);
-        }, animationTimeSeconds*1000 - 700)
+        }, animationTimeSeconds * 1000 - 700)
     }, [])
     const newString =
         "It never rains in Southern California, which\n" +
@@ -57,7 +58,7 @@ export const HeadSection = () => {
                 fontSize: 0.1,
             }))
             setTargetString(newString)
-            setTextLocation([-1.3, 1.0, 0])
+            // setTextLocation()
         }
     }
 
@@ -75,6 +76,7 @@ export const HeadSection = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
+                userSelect: "none",
 
             }}
             ref={ref}
@@ -120,7 +122,7 @@ export const HeadSection = () => {
                                 {
                                     '&:hover': {
                                         color: "white",
-                                    background: "#000",
+                                        background: "#000",
                                     },
                                 }
                             ]}
@@ -131,9 +133,34 @@ export const HeadSection = () => {
                             >
                                 Keane
                             </Typography>
+
+
+                        </Box>
+                        <Box
+                            sx={{
+                                fontColor: 'white',
+                                fontSize: '1px',
+                                backgroundColor: 'white'
+                            }}
+                        >
+
+                        </Box>
+                        <Box
+                            sx={{
+                                background: "#000",
+                                // color: 'white',
+                                px: 2,
+                                transition: "all 1s ease-out"
+                            }}
+                        >
+                            <Me
+                                width={100}
+                                stroke={'white'}
+                            />
                         </Box>
                     </Collapse>
                 </Box>
+
                 <SubCaption>
                     and I build applications, design
                 </SubCaption>
