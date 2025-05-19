@@ -35,7 +35,7 @@ export const BackgroundTextProvider = ({children}: {
         setCurCursor(cursor => cursor === "|" ? `\xa0` : "|")
     }, 1000)
 
-    const [targetString, setTargetString] = useState('feafaefa\nfeafeafea');
+    const [targetString, setTargetString] = useState('');
     const realishString = useTypewriter(targetString)
     const [textLocation, setTextLocation] = useState<[number, number, number]>(
         [-1.0, 1.0, 0]

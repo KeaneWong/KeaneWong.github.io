@@ -10,17 +10,13 @@ import {useRef, useEffect, useState} from 'react'
 import RainMaterial from "./RainMaterial.tsx"
 import {WindowView} from "../WindowView.tsx";
 import {WindowSill} from "./WindowSill.tsx";
-
+import {isTouchDevice} from "../../contexts/WeatherControllerContext.tsx"
+import {useWeatherController} from "../../hooks/useWeatherController.tsx";
 
 export interface RainyWindowPropsType {
     worldScale?: number
 }
 
-function isTouchDevice() {
-  return (('ontouchstart' in window) ||
-     (navigator.maxTouchPoints > 0) ||
-     (navigator.msMaxTouchPoints > 0));
-}
 
 
 export const RainyWindow = (
@@ -31,7 +27,8 @@ export const RainyWindow = (
 
 
     const materialRef = useRef<THREE.ShaderMaterial>(null)
-    const {size, viewport} = useThree()
+    const {size, viewport} = useThree();
+    const {rainProps} = useWeatherController();
     const windowRenderTarget = useFBO();
 
     const [mousePosition, setMousePosition] = useState([0.5, 0.5])
@@ -95,7 +92,6 @@ export const RainyWindow = (
     // const {camera} = useThree()
 
     // camera.lookAt(windowPosition[0]+.6, windowPosition[1]-.4, windowPosition[2])
-
     return (
         <>
             <WindowSill
@@ -115,18 +111,10 @@ export const RainyWindow = (
                     // textureRef={textureRef}
                 />
                 <rainMaterial
-                    ref={materialRef}
-                    u_intensity={0.7}
-                    u_speed={0.3}
-                    u_zoom={0.12}
-                    u_blur_intensity={0.5}
-                    u_blur_iterations={12}
                     u_mouse_position={new THREE.Vector2(...mousePosition)}
-                    u_clear_radius={isTouchDevice() ? 1 : .35}
-                    u_brightness={0.7}
-                    u_clear_edge_softness={0.05}
-                    u_clear_blur_reduction={1}
-                    u_lightning={true}
+                    ref={materialRef}
+                    {...rainProps}
+
                 />
             </mesh>
         </>

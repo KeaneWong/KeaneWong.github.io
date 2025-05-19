@@ -7,6 +7,8 @@ import {EyeOpener} from "./components/EyeOpener.tsx";
 import {BackgroundTextProvider} from "./contexts/BackgroundTextContext.tsx";
 import {Section2} from "./sections/Section2.tsx";
 import {ShipControllerProvider} from "./contexts/ShipControllerContext.tsx";
+import {Section3} from './sections/Section3.tsx';
+import {WeatherContextProvider} from "./contexts/WeatherControllerContext.tsx";
 
 function App() {
 
@@ -18,21 +20,24 @@ function App() {
         >
             {/*<WindowRevealer/>*/}
             <EyeOpener/>
-            <BackgroundTextProvider>
-                <ShipControllerProvider>
+            <WeatherContextProvider>
+                <BackgroundTextProvider>
+                    <ShipControllerProvider>
 
-                    <MainToolbar/>
-                    <div
-                        style={{}}
-                    >
-                        <HeadSection/>
-                        <BackgroundCanvas/>
-                        {/*<Section1/>*/}
-                        <Section2/>
+                        <MainToolbar/>
+                        <div
+                            style={{}}
+                        >
+                            <HeadSection/>
+                            <BackgroundCanvas/>
+                            {/*<Section1/>*/}
+                            <Section2/>
+                            <Section3/>
 
-                    </div>
-                </ShipControllerProvider>
-            </BackgroundTextProvider>
+                        </div>
+                    </ShipControllerProvider>
+                </BackgroundTextProvider>
+            </WeatherContextProvider>
         </div>
     )
 }

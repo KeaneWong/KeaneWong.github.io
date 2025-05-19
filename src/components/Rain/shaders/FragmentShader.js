@@ -137,14 +137,15 @@ void main() {
     float screenAspect = u_resolution.x / u_resolution.y;
     float textureAspect = u_tex0_resolution.x / u_tex0_resolution.y;
     
-    // Calculate real-world scale factor
-    // This makes the rain effect scale with the plane size
-    float scaleFactor = 1.0 / (u_plane_size.y * u_world_scale);
-    
-    // Prepare UV for rain effect
+    // Use a consistent rain density regardless of plane size
+    // Scale factor based on world units, not fixed value
     vec2 rainUV = centeredUV;
-    rainUV.x *= planeAspect; // Maintain aspect ratio
-    rainUV *= scaleFactor * 10.0; // Scale based on plane size
+    rainUV.x *= planeAspect;
+    
+    // The key change: Scale rain effect based on the zoom and plane size
+    // This ensures the rain density is consistent with the plane size
+    float rainScale = 10.0 * u_zoom;
+    rainUV *= rainScale;
     
     // UV for texture sampling
     vec2 textureUV = uv;
@@ -165,7 +166,7 @@ void main() {
     float rainAmount = u_intensity;
     
     float zoom = u_panning ? -cos(T * 0.2) : 0.0;
-    rainUV *= (0.7 + zoom * 0.3) * u_zoom;
+    rainUV *= (0.7 + zoom * 0.3);
     
     float staticDrops = S(-0.5, 1.0, rainAmount) * 2.0;
     float layer1 = S(0.25, 0.75, rainAmount);
@@ -179,8 +180,8 @@ void main() {
     float cy = Drops(rainUV + e.yx, t, staticDrops, layer1, layer2).x;
     vec2 n = vec2(cx - c.x, cy - c.x);
     
-    // Scale the normal effect based on the plane size
-    n *= min(1.0, 5.0 / u_plane_size.y);
+    // Scale normal effect based on rain scale
+    n *= 0.3;
     
     // Sample the texture with the distorted UVs
     vec3 col = texture2D(u_tex0, textureUV + n).rgb;

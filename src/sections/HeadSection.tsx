@@ -3,14 +3,17 @@ import {
     Typography,
     TypographyProps,
     Collapse,
+    createTheme,
+    ThemeProvider,
+    CollapseProps,
 } from "@mui/material"
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer"
 // import Me from "../assets/Subject.png"
 import Me from "../assets/MySillhouette.tsx"
-import {keyframes} from "@mui/system"
 import {animationTimeSeconds} from "../components/EyeOpener.tsx";
 import {useState, useEffect} from "react";
+import {useWeatherController} from "../hooks/useWeatherController.tsx";
 
 
 export const SubCaption = ({
@@ -23,6 +26,7 @@ export const SubCaption = ({
             {...rest}
             sx={{
                 textAlign: 'end',
+                width: '1000px',
                 ...sx
             }}
         >
@@ -31,15 +35,108 @@ export const SubCaption = ({
     )
 }
 
+export interface RevealCaptionPropsType extends TypographyProps {
+    transitionProps?: CollapseProps
+}
+
+export const RevealCaption = ({
+                                  transitionProps,
+                                  ...rest
+                              }: RevealCaptionPropsType) => {
+    return (
+        <Collapse
+            {...transitionProps}
+        >
+            <SubCaption {...rest}/>
+        </Collapse>
+    )
+}
+
+export const NameSillhouette = () => {
+    const commonSilhouetteStyles = {
+        px: 2,
+        py: 0,
+        transition: "all 1s ease-out",
+        top: 0,
+        left: 0,
+    }
+    const [hover, setHover] = useState<boolean>(false);
+    return (
+        <Box
+            id={"silhouetteContainer"}
+            sx={{
+                position: "relative",
+                zIndex: 100,
+            }}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+        >
+            <Box
+                id={"NegativeNameSilhouette"}
+                sx={[
+                    {
+                        ...commonSilhouetteStyles,
+                        background: hover ? "#000" : "#fff",
+                        color: hover ? "white" : 'black',
+                        zIndex: 2,
+
+                    },
+
+
+                ]}
+            >
+
+                <Typography
+                    variant={'h1'}
+                >
+                    Keane
+                </Typography>
+
+            </Box>
+            <Box
+                id={"PositiveNameSilhouette"}
+                sx={[
+                    {
+                        ...commonSilhouetteStyles,
+                        background: hover ? "#fff" : "#000",
+                        color: hover ? "black" : 'white',
+                        position: 'absolute',
+                        zIndex: 1,
+                        clipPath: "url(#silhouettePath)",
+                        // pointerEvents: 'none'
+
+                    },
+
+                ]}
+            >
+
+                <Typography
+                    variant={'h1'}
+                >
+                    Keane
+                </Typography>
+
+            </Box>
+            <Me
+                style={{
+                    position: 'absolute',
+                }}
+
+            />
+        </Box>
+    )
+}
+
+export const RevealCaptionTimeout = 1000
 
 export const HeadSection = () => {
     const {
         setTargetString,
-        setTextLocation,
         setTextProps
     } = useBackgroundText();
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
     const [eyeOpenFinished, setEyeOpenFinished] = useState(false);
+    const {defaultRainProps, setRainProps} = useWeatherController()
     useEffect(() => {
         setTimeout(() => {
             setEyeOpenFinished(true);
@@ -53,12 +150,13 @@ export const HeadSection = () => {
     function changeText(inView: boolean,) {
         setIsCurrentlyInView(inView);
         if (inView) {
+            setRainProps(defaultRainProps)
             setTextProps((oldProps) => ({
                 ...oldProps,
                 fontSize: 0.1,
             }))
             setTargetString(newString)
-            // setTextLocation()
+
         }
     }
 
@@ -110,66 +208,46 @@ export const HeadSection = () => {
                         orientation="horizontal"
                         timeout={1000}
                     >
-
-                        <Box
-                            sx={[
-                                {
-                                    background: "#fff",
-                                    color: 'black',
-                                    px: 2,
-                                    transition: "all 1s ease-out"
-                                },
-                                {
-                                    '&:hover': {
-                                        color: "white",
-                                        background: "#000",
-                                    },
-                                }
-                            ]}
-                        >
-                            <Typography
-                                variant={'h1'}
-
-                            >
-                                Keane
-                            </Typography>
-
-
-                        </Box>
-                        <Box
-                            sx={{
-                                fontColor: 'white',
-                                fontSize: '1px',
-                                backgroundColor: 'white'
-                            }}
-                        >
-
-                        </Box>
-                        <Box
-                            sx={{
-                                background: "#000",
-                                // color: 'white',
-                                px: 2,
-                                transition: "all 1s ease-out"
-                            }}
-                        >
-                            <Me
-                                width={100}
-                                stroke={'white'}
-                            />
-                        </Box>
+                        <NameSillhouette/>
                     </Collapse>
                 </Box>
 
-                <SubCaption>
-                    and I build applications, design
-                </SubCaption>
-                <SubCaption>
-                    websites, and develop research tools. And, I'm
-                </SubCaption>
-                <SubCaption>
-                    obsessed with the intersection of creativity and engineering.
-                </SubCaption>
+                <Box
+                    sx={{
+                        width: 1000
+                    }}
+                >
+                    <RevealCaption
+                        transitionProps={{
+                            in: isCurrentlyInView,
+                            orientation: 'horizontal',
+                            timeout: RevealCaptionTimeout,
+                        }}
+
+                    >
+                        and I build applications, design
+                    </RevealCaption>
+
+                    <RevealCaption
+                        transitionProps={{
+                            in: isCurrentlyInView,
+                            orientation: 'horizontal',
+                            timeout: RevealCaptionTimeout,
+                        }}
+                    >
+                        websites, and develop research tools. And, I'm
+                    </RevealCaption>
+                    <RevealCaption
+                        transitionProps={{
+                            in: isCurrentlyInView,
+                            orientation: 'horizontal',
+                            timeout: RevealCaptionTimeout,
+                        }}
+                    >
+                        obsessed with the intersection of creativity and engineering.
+                    </RevealCaption>
+                </Box>
+
             </Box>
         </Box>
     )
