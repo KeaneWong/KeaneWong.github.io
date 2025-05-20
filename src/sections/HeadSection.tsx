@@ -150,7 +150,7 @@ export const HeadSection = () => {
     function changeText(inView: boolean,) {
         setIsCurrentlyInView(inView);
         if (inView) {
-            setRainProps(defaultRainProps)
+            // setRainProps(defaultRainProps)
             setTextProps((oldProps) => ({
                 ...oldProps,
                 fontSize: 0.1,

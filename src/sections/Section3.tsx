@@ -26,7 +26,6 @@ export const Section3 = ({
         setTargetString,
         setTextProps,
     } = useBackgroundText();
-        const { setRainProps} = useWeatherController()
 
 
     const newString =
@@ -39,14 +38,7 @@ export const Section3 = ({
     function changeText(inView: boolean,) {
         setIsCurrentlyInView(inView)
         if (inView) {
-            // setRainProps((oldRainProps)=>({
-            //     ...oldRainProps,
-            //     u_intensity: 0.35,
-            //     u_lightning: false,
-            //     u_blur_intensity: 0.35,
-            //     u_blur_iterations: 12,
-            //     // u_brightness: 0.78
-            // }))
+
             setTextProps((oldProps) => ({
                 ...oldProps,
                 fontSize: 0.1,

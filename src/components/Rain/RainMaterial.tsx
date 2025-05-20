@@ -16,7 +16,7 @@ const rainMaterial = shaderMaterial(
         u_normal: 0.5,
         u_zoom: 0.2,
         u_blur_intensity: 0.5,
-        u_blur_iterations: 16,
+        u_blur_iterations: 12,
         u_panning: false,
         u_post_processing: true,
         u_lightning: false,

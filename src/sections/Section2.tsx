@@ -17,7 +17,6 @@ import Fluxergy from "../assets/Fluxergy.png"
 import UCI from "../assets/uci.jpg"
 import DnD from "../assets/180Days.png"
 import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx"
-import {useWeatherController} from "../hooks/useWeatherController.tsx";
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -105,12 +104,11 @@ export const Section2 = ({
         setTargetString,
         setTextProps
     } = useBackgroundText();
-    const { setRainProps} = useWeatherController()
 
     const newString =
-        "" +
-        "" +
-        ""
+        "<a href='keanewong.github.io'>\n" +
+        "<div>Hello World</div>" +
+        "</a>"
 
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
 
@@ -262,6 +260,7 @@ export const Section2 = ({
                     spacing={3}
                     sx={{
                         px: 2,
+                        mx: 4
                     }}
                 >
                     <Grow
@@ -432,8 +431,9 @@ export const Section2 = ({
                                         <br/>
                                         It's a little window to my imagination. I
                                         put this together as a dice roller my players can
-                                        fiddle with during games, with easter eggs for
-                                        the attentive
+                                        fiddle with during games, with secret easter eggs
+                                        scattered through the site for my most
+                                        inquisitive players.
                                     </Typography>
                                 </PictureCard>
                             </a>
