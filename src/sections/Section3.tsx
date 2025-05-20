@@ -35,6 +35,7 @@ export const Section3 = ({
         "write fantasy stories."
 
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
+
     function changeText(inView: boolean,) {
         setIsCurrentlyInView(inView)
         if (inView) {
@@ -128,7 +129,7 @@ export const Section3 = ({
                     </Box>
                     <Box
                         sx={{
-                        display: 'block',
+                            display: 'block',
                             width: 1000,
 
                             // mb: 3
@@ -146,31 +147,66 @@ export const Section3 = ({
                                 // textJustify: 'inter-word',
                                 // width: 500
                             }}
+                            variant={'h6'}
+
                         >
-                            I'm passionate about engineering of all kinds, but
-                            software engineering is special to me. I love the
-                            freedom of being able to make anything I want.
-                            So long as I can imagine how it should work, I can
-                            make it real.
+                            I'm a SoCal based software engineer
 
                         </RevealCaption>
-                        {/*<RevealCaption*/}
-                        {/*    transitionProps={{*/}
-                        {/*        in: isCurrentlyInView,*/}
-                        {/*        orientation: 'horizontal',*/}
-                        {/*        timeout: RevealCaptionTimeout,*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*</RevealCaption>*/}
-                        {/*<RevealCaption*/}
-                        {/*    transitionProps={{*/}
-                        {/*        in: isCurrentlyInView,*/}
-                        {/*        orientation: 'horizontal',*/}
-                        {/*        timeout: RevealCaptionTimeout,*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    /!*I'm a developer from SoCal who grew up*!/*/}
-                        {/*</RevealCaption>*/}
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+                        >
+                            specializing in full-stack applications and web
+                        </RevealCaption>
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            development. I like to work with unconventional
+                        </RevealCaption>
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            innovations and I love the challenges that come with
+                        </RevealCaption>
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            working on them. I dream of building things that impact our
+                        </RevealCaption>
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            daily lives in an important way.
+                        </RevealCaption>
                     </Box>
                 </Box>
 

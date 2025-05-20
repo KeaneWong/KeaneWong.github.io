@@ -31,8 +31,8 @@ function App() {
                             <HeadSection/>
                             <BackgroundCanvas/>
                             {/*<Section1/>*/}
-                            <Section2/>
                             <Section3/>
+                            <Section2/>
 
                         </div>
                     </ShipControllerProvider>

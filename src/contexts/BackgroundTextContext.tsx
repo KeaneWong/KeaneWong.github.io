@@ -22,6 +22,8 @@ export type BackgroundTextContextType = {
     setTextLocation: (position: [number, number, number]) => void;
     textProps: ContextTextPropsType;
     setTextProps: Dispatch<SetStateAction<ContextTextPropsType>>;
+    href: string;
+    setHref:  Dispatch<SetStateAction<string>>;
 }
 
 export const backgroundTextContext: Context<BackgroundTextContextType> = createContext(null);
@@ -47,6 +49,7 @@ export const BackgroundTextProvider = ({children}: {
         anchorY: "top",
         letterSpacing: -.1,
     });
+    const [href, setHref] = useState<string>("")
     return (
         <backgroundTextContext.Provider
             value={useMemo(() => ({
@@ -57,6 +60,8 @@ export const BackgroundTextProvider = ({children}: {
                 setTextLocation,
                 textProps,
                 setTextProps,
+                href,
+                setHref,
             }), [realishString,
                 targetString,
                 setTargetString,
@@ -64,7 +69,9 @@ export const BackgroundTextProvider = ({children}: {
                 textLocation,
                 setTextLocation,
                 textProps,
-                setTextProps
+                setTextProps,
+                href,
+                setHref,
             ])}
         >
             {children}

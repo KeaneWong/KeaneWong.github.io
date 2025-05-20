@@ -74,28 +74,11 @@ export const WeatherContextProvider = ({children}: {
                     rainProps.u_intensity) > 0.05
             ) {
                 setRainProps((oldRainProps) => {
-
                     return {
                         ...oldRainProps,
                         u_intensity: defaultRainProps.u_intensity * (1 - adjustedPos) + 0.16,
-                        u_blur_iterations: Math.max(Math.round(12 * (1-adjustedPos) ), 1),
-                        u_lightning: adjustedPos > 0.5
-                    }
-                })
-            }
-            if(adjustedPos > 0.5 && rainProps.u_lightning){
-                setRainProps((oldRainProps)=>{
-                    return {
-                        ...oldRainProps,
-                        u_lightning: true,
-
-                    }
-                })
-            } else if (adjustedPos < 0.5 && !rainProps.u_lightning){
-                setRainProps((oldRainProps)=>{
-                    return {
-                        ...oldRainProps,
-                        u_lightning: false,
+                        // u_blur_iterations: Math.max(Math.round(12 * (1-adjustedPos) ), 1),
+                        u_lightning: adjustedPos < 0.5
                     }
                 })
             }

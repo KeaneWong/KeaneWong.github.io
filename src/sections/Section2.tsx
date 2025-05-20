@@ -106,8 +106,8 @@ export const Section2 = ({
     } = useBackgroundText();
 
     const newString =
-        "<a href='keanewong.github.io'>\n" +
-        "<div>Hello World</div>" +
+        "<a href='linkedin.com/in/KeaneWong'>\n" +
+        "\t<div>Hello World</div>\n" +
         "</a>"
 
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
@@ -227,7 +227,7 @@ export const Section2 = ({
                                 timeout: RevealCaptionTimeout,
                             }}
                         >
-                            Here's a couple highlights of some stuff I've done.
+                            Here's a couple highlights of some stuff I've worked on.
                         </RevealCaption>
 
                         {/*<RevealCaption*/}

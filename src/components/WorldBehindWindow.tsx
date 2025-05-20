@@ -16,7 +16,11 @@ export const WorldBehindWindow = ({
                                       // textureRef,
                                   }: WorldBehindWindowProps) => {
 
-    const {realString, textLocation, textProps} = useBackgroundText()
+    const {
+        realString,
+        textLocation,
+        textProps,
+    } = useBackgroundText()
 
     useEffect(() => {
     }, []);
@@ -27,6 +31,9 @@ export const WorldBehindWindow = ({
                 position={[...textLocation]}
                 font={MyFont}
                 {...textProps}
+                onPointerOver={(event) => {
+                    console.log("What");
+                }}
             >
                 {realString}
             </Text>
