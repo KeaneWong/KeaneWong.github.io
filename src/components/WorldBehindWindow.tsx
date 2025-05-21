@@ -31,9 +31,7 @@ export const WorldBehindWindow = ({
                 position={[...textLocation]}
                 font={MyFont}
                 {...textProps}
-                onPointerOver={(event) => {
-                    console.log("What");
-                }}
+
             >
                 {realString}
             </Text>

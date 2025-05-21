@@ -16,6 +16,8 @@ import {useInView} from "react-intersection-observer";
 import Fluxergy from "../assets/Fluxergy.png"
 import UCI from "../assets/uci.jpg"
 import DnD from "../assets/180Days.png"
+import SMAC from "../assets/smac_fire.jpg"
+import Blank from "../assets/blank.png"
 import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx"
 
 export interface PageOverlayPropsType {
@@ -97,7 +99,7 @@ export const Section2 = ({
                              sx = {
                                  width: '100vw',
                                  height: '100vh',
-
+                                 mt: 5,
                              }
                          }: PageOverlayPropsType) => {
     const {
@@ -107,7 +109,9 @@ export const Section2 = ({
 
     const newString =
         "<a href='linkedin.com/in/KeaneWong'>\n" +
-        "\t<div>Hello World</div>\n" +
+        "\t<div>\n" +
+        "\t\tMy Experience.\n" +
+        "\t</div>\n" +
         "</a>"
 
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
@@ -133,7 +137,7 @@ export const Section2 = ({
     }
 
     const {ref} = useInView({
-        threshold: 0.6,
+        threshold: 0.45,
         onChange: changeText
     });
 
@@ -202,15 +206,24 @@ export const Section2 = ({
                                     }
                                 ]}
                             >
-                                <Typography
-                                    variant={'h2'}
-                                    sx={{
-                                        whiteSpace: 'nowrap',
-
+                                <a
+                                    target={"_blank"}
+                                    href={"https://linkedin.com/in/KeaneWong"}
+                                    style={{
+                                        textDecoration: 'inherit',
+                                        color: 'inherit',
                                     }}
                                 >
-                                    My Experience.
-                                </Typography>
+                                    <Typography
+                                        variant={'h2'}
+                                        sx={{
+                                            whiteSpace: 'nowrap',
+
+                                        }}
+                                    >
+                                        My Experience.
+                                    </Typography>
+                                </a>
                             </Box>
                         </Collapse>
                     </Box>
@@ -310,13 +323,16 @@ export const Section2 = ({
                                         }}
                                         variant={"body2"}
                                     >
-                                        Full-stack development for the next generation
-                                        Fluxergy Works application.
+                                        <i>Full-stack development for affordable,
+                                            next generation diagnostic devices.</i>
+                                        <br/><br/>
+                                        &ensp;I designed the firmware
+                                        communications API, wrote the system task scheduler,
+                                        and helped to develop the user interfaces.
                                         <br/>
-                                        I helped develop the user interfaces,
-                                        built data APIs, and designed both the
-                                        firmware communications API, and the system
-                                        task scheduler.
+                                        &ensp;Totally unlike any other system, which
+                                        makes every hurdle both challenging and
+                                        endlessly interesting.
                                     </Typography>
                                 </PictureCard>
                             </a>
@@ -354,7 +370,7 @@ export const Section2 = ({
                                         sx={{
                                             width: 1,
                                             // textAlign: "left",
-                                            mb: 1,
+                                            // mb: 1,
                                         }}
                                         variant={"h5"}
                                     >
@@ -368,13 +384,16 @@ export const Section2 = ({
                                         }}
                                         variant={"body2"}
                                     >
-                                        Research tools for cutting edge antibody
-                                        correlation technology.
+                                        <i>Research tools for cutting edge antibody
+                                            correlation technology.</i>
+                                        <br/><br/>
+                                        &ensp;We catalogued hundreds of billions of sequences,
+                                        across the human and bacterial proteomes
+                                        and isolated antibody sequences to support
+                                        the fight against Alzheimer's and other diseases.
                                         <br/>
-                                        We catalogued the entire known human, viral,
-                                        and bacterial proteomes and isolated
-                                        antibody sequences to support the fight
-                                        against Alzheimer's and other diseases.
+                                        {/*&ensp;To this day, research is still going on and the*/}
+                                        {/*tools we made are being built on all the time.*/}
                                     </Typography>
                                 </PictureCard>
                             </a>
@@ -412,7 +431,7 @@ export const Section2 = ({
                                         sx={{
                                             width: 1,
                                             // textAlign: "left",
-                                            mb: 1,
+                                            // mb: 1,
                                         }}
                                         variant={"h5"}
                                     >
@@ -426,20 +445,134 @@ export const Section2 = ({
                                         }}
                                         variant={"body2"}
                                     >
-                                        An interactive game website and dice roller for
-                                        my original D&D campaign.
-                                        <br/>
-                                        It's a little window to my imagination. I
+                                        <i>An interactive game website and dice roller for
+                                            my original D&D campaign.</i>
+                                        <br/><br/>
+                                        &ensp;It's a little window to my imagination. I
                                         put this together as a dice roller my players can
-                                        fiddle with during games, with secret easter eggs
-                                        scattered through the site for my most
-                                        inquisitive players.
+                                        fiddle with during games, with little secrets
+                                        scattered about for my most inquisitive players.
+                                        <br/>
+                                        &ensp;And, maybe you'll spot some of it's secrets
+                                        as well. Just watch out for the <strong>monster.</strong>
                                     </Typography>
                                 </PictureCard>
                             </a>
                         </Grid>
                     </Grow>
+                    <Grow
+                        in={isCurrentlyInView}
+                        timeout={{
+                            enter: 3000,
+                            appear: 3000,
+                            exit: 1000,
+                        }}
+                    >
+                        <Grid
+                            size={{
+                                xs: 6,
+                                md: 4
+                            }}
+                        >
+                            <a
+                                target={"_blank"}
+                                href={"https://cpcc.uci.edu/research.php"}
+                            >
+                                <PictureCard
+                                    src={SMAC}
+                                    sx={{
+                                        textAlign: 'left',
+                                        display: 'block',
+                                        p: 1,
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            // mb: 1,
+                                        }}
+                                        variant={"h5"}
+                                    >
+                                        SMAC-Fire WildFire Response Initiative
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            whiteSpace: 'pre-wrap'
+                                        }}
+                                        variant={"body2"}
+                                    >
+                                        <i>Predicting the spread of wildfires informed
+                                            by closed-loop sensing and machine learning
+                                            classification models.</i>
+                                        <br/><br/>
+                                        &ensp; We put together infrastructure for reliable,
+                                        distributed systems; the kind of systems that
+                                        would hold up after you sent them flying into
+                                        a blazing inferno.
 
+                                    </Typography>
+                                </PictureCard>
+                            </a>
+                        </Grid>
+                    </Grow>
+                    <Grow
+                        in={isCurrentlyInView}
+                        timeout={{
+                            enter: 3000,
+                            appear: 3000,
+                            exit: 1000,
+                        }}
+                    >
+                        <Grid
+                            size={{
+                                xs: 6,
+                                md: 4
+                            }}
+                        >
+                            <a
+                                target={"_blank"}
+                                href={"https://github.com/KeaneWong"}
+                            >
+                                <PictureCard
+                                    src={Blank}
+                                    sx={{
+                                        textAlign: 'left',
+                                        display: 'block',
+                                        p: 1,
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            // mb: 1,
+                                        }}
+                                        variant={"h5"}
+                                    >
+                                        Curious about any of these?
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            whiteSpace: 'pre-wrap'
+                                        }}
+                                        variant={"body2"}
+                                    >
+                                        <a>
+                                            See what else I'm up to.
+                                        </a>
+
+                                    </Typography>
+                                </PictureCard>
+                            </a>
+                        </Grid>
+                    </Grow>
                 </Grid>
             </Box>
 
