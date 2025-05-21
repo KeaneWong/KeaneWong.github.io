@@ -3,13 +3,14 @@ import {
     Box,
     SxProps,
     Grid,
-    Popover,
+    Popover, Collapse,
 } from "@mui/material"
 import {useState, ReactNode} from 'react';
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer";
-import {SubCaption} from "./HeadSection.tsx"
+import {RevealCaption, RevealCaptionTimeout, SubCaption} from "./HeadSection.tsx"
 import {css, keyframes, styled} from "styled-components";
+import Resume from "../assets/KeaneWong.pdf";
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -35,7 +36,7 @@ const RainbowEffectSpan = styled("span")(
         background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
         background-clip: text;
         color: transparent;
-        animation: ${rainbowEffect} 5s linear infinite ;
+        animation: ${rainbowEffect} 5s linear infinite;
     `
 );
 
@@ -64,7 +65,9 @@ export const Item = ({
             variant={"h5"}
             sx={{
                 textAlign: 'end',
-                px: 1,
+                // px: 1,
+                width: 'auto',
+                textWrap: 'nowrap'
             }}
             onMouseEnter={handlePopoverOpen}
             onMouseLeave={handlePopoverClose}
@@ -85,7 +88,10 @@ export const Item = ({
                 onClose={handlePopoverClose}
                 disableRestoreFocus
             >
-                <Typography sx={{p: 1}}>{popoverNode}</Typography>
+                <Typography sx={{
+                    p: 1,
+
+                }}>{popoverNode}</Typography>
             </Popover>}
         </SubCaption>
 
@@ -100,28 +106,29 @@ export const Section1 = ({
                          }: PageOverlayPropsType) => {
     const {
         setTargetString,
-        setTextLocation,
         setTextProps
     } = useBackgroundText();
+    const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
     const newString =
-        "In my free time, I make custom music instruments\n" +
-        "(though I can't play), make indie games\n" +
-        "and write fantasy stories."
+        "\nFeel free to talk to me about anything\n" +
+        "on here. Or not on here, \n" +
+        "for that matter."
 
     function changeText(inView: boolean,) {
+        setIsCurrentlyInView(inView)
         if (inView) {
             setTextProps((oldProps) => ({
                 ...oldProps,
                 fontSize: 0.1,
             }))
             setTargetString(newString)
-            setTextLocation([-1.3, 1.0, 0])
+            // setTextLocation([-1.3, 1.0, 0])
         }
 
     }
 
     const {ref} = useInView({
-        threshold: 0.75,
+        threshold: 0.6,
         onChange: changeText
     });
 
@@ -130,15 +137,12 @@ export const Section1 = ({
         <Box
             sx={{
                 // position: 'absolute',
-                width: '100vw',
-                height: '100vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
                 ...sx,
             }}
             ref={ref}
-
         >
             <Box
                 sx={{
@@ -147,42 +151,126 @@ export const Section1 = ({
 
                 }}
             >
-                <Typography
-                    variant={"h2"}
+                <Box
                     sx={{
-                        textAlign: 'end',
+                        display: 'block'
                     }}
                 >
-                    <strong>
-                        Some Stuff I Can Do
-                    </strong>
-                </Typography>
+
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'end',
+                        }}
+                    >
+
+
+                        <Collapse
+                            // mountOnEnter={false}
+                            // in={false}
+                            in={isCurrentlyInView}
+                            orientation="horizontal"
+                            timeout={1000}
+                            sx={{}}
+                        >
+
+                            <Box
+                                sx={[
+                                    {
+                                        background: "#fff",
+                                        color: 'black',
+                                        px: 2,
+                                        // mb: 2,
+                                        transition: "all 1s ease-out",
+                                        display: 'flex',
+                                        justifyContent: 'end',
+                                        textAlign: 'end',
+                                    },
+                                    {
+                                        '&:hover': {
+                                            color: "white",
+                                            background: "#000",
+                                        },
+                                    }
+                                ]}
+                            >
+
+                                <Typography
+                                    variant={'h2'}
+                                    sx={{
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    Skills and Tools.
+                                </Typography>
+                            </Box>
+                        </Collapse>
+
+                    </Box>
+                    <Box
+                        sx={{
+                            width: 1000,
+                            // mb: 3
+                        }}
+                    >
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            Here's a list of some of the things i can do.
+                        </RevealCaption>
+                        {/*<RevealCaption*/}
+                        {/*    transitionProps={{*/}
+                        {/*        in: isCurrentlyInView,*/}
+                        {/*        orientation: 'horizontal',*/}
+                        {/*        timeout: RevealCaptionTimeout,*/}
+                        {/*    }}*/}
+                        {/*    variant={'h6'}*/}
+
+                        {/*>*/}
+                        {/*    If I can offer any help, I'm always open to chat*/}
+                        {/*</RevealCaption>*/}
+                        <RevealCaption
+                            transitionProps={{
+                                in: isCurrentlyInView,
+                                orientation: 'horizontal',
+                                timeout: RevealCaptionTimeout,
+                            }}
+                            variant={'h6'}
+
+                        >
+                            If you have something to teach, I'm always looking to learn.
+                        </RevealCaption>
+
+
+                    </Box>
+                </Box>
                 <Box
                     sx={{
                         display: 'flex',
                         justifyContent: 'end',
-                        width: '100%',
+                        // width: '100%',
+                        // width: "1000px"
                     }}
                 >
                     <Box sx={{
-                        flexGrow: 1,
                         width: 400,
 
                     }}>
                         <Grid
                             container
                             sx={{
-                                mt: 4,
+                                mt: 2,
+                                // width: 300,
                             }}
-                            columnSpacing={0}
+                            columnSpacing={4}
                         >
-                            <Grid size={6}>
-                                <Item
-                                    popoverNode={
-                                        "Strapped with UI/UX design to Boot!"
-                                    }
-                                >Web Design</Item>
-                            </Grid>
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
@@ -191,12 +279,12 @@ export const Section1 = ({
                                             <RainbowEffectSpan>and counting.</RainbowEffectSpan>
                                         </>
                                     }
-                                >HTML/CSS/JS</Item>
+                                >Web Design</Item>
                             </Grid>
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Tried it once and was Hooked ever since."
+                                        "Started 2019 and Hooked on it ever since."
                                     }
                                 >React</Item>
                             </Grid>
@@ -219,7 +307,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Large-scale data analyzed and used in published research."
+                                        "Large-scale data analyzed and distilled into research."
                                     }
                                 >Data Analysis</Item>
                             </Grid>
@@ -233,7 +321,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Production level services on Google Cloud Platform (GCP) and AWS."}
+                                        "Cloud functions and data analysis on Google Cloud Platform (GCP), and AWS."}
                                 >Cloud Engineering</Item>
                             </Grid>
                             <Grid size={6}>
@@ -254,7 +342,7 @@ export const Section1 = ({
                             <Grid size={6}>
                                 <Item
                                     popoverNode={
-                                        "Both Azure Pipelines, and Github Actions based."
+                                        "Using Azure Pipelines, and Github Actions."
                                     }
                                 >DevOps</Item>
                             </Grid>
@@ -264,6 +352,30 @@ export const Section1 = ({
                                         "Including HTTP RESTful APIs, and Real Time Protocols."
                                     }
                                 >Full Stack</Item>
+                            </Grid>
+                            {/*<Grid size={6}>*/}
+                            {/*    <Item*/}
+                            {/*        popoverNode={*/}
+                            {/*            "Strapped with UI/UX design to Boot!"*/}
+                            {/*        }*/}
+                            {/*    >Game Developmeny</Item>*/}
+                            {/*</Grid>*/}
+                            <Grid size={6}>
+                                <Item>
+                                    <a
+                                        href={Resume}
+                                        target={"_blank"}
+                                        download={"Keane Wong's Resume.pdf"}
+                                        style={{
+                                            color: 'inherit',
+                                            textDecoration: "inherit"
+                                        }}
+                                    >
+                                        <u>
+                                            And more
+                                        </u>
+                                    </a>
+                                </Item>
                             </Grid>
 
 

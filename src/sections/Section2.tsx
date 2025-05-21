@@ -157,13 +157,10 @@ export const Section2 = ({
         >
             <Box
                 sx={{
-
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'end',
-
                     pr: 2,
-
                 }}
 
             >
@@ -509,7 +506,7 @@ export const Section2 = ({
                                             by closed-loop sensing and machine learning
                                             classification models.</i>
                                         <br/><br/>
-                                        &ensp; We put together infrastructure for reliable,
+                                        &ensp;We put together infrastructure for reliable,
                                         distributed systems; the kind of systems that
                                         would hold up after you sent them flying into
                                         a blazing inferno.
@@ -551,22 +548,24 @@ export const Section2 = ({
                                             width: 1,
                                             // textAlign: "left",
                                             // mb: 1,
+
                                         }}
                                         variant={"h5"}
                                     >
-                                        Curious about any of these?
+                                        &ensp;Curious about any of these?
                                     </Typography>
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
+                                            textAlign: "right",
+                                            pr: 2,
                                             whiteSpace: 'pre-wrap'
                                         }}
                                         variant={"body2"}
-                                    >
-                                        <a>
-                                            See what else I'm up to.
-                                        </a>
+                                    ><br/>
+            <u>
+                                            See what else I'm up to >
+</u>
 
                                     </Typography>
                                 </PictureCard>

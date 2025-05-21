@@ -13,7 +13,7 @@ import {CameraWrapper} from "./CameraWrapper.tsx";
 import { BackWall } from './Rain/BackWall.tsx';
 import {DirectionLightWrapper} from "./DirectionLightWrapper.tsx";
 
-const PARALLAX = 3
+const PARALLAX = 2
 
 export const BackgroundCanvas = () => {
     const [x, setX] = useState(0)

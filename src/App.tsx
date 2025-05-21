@@ -9,6 +9,7 @@ import {Section2} from "./sections/Section2.tsx";
 import {ShipControllerProvider} from "./contexts/ShipControllerContext.tsx";
 import {Section3} from './sections/Section3.tsx';
 import {WeatherContextProvider} from "./contexts/WeatherControllerContext.tsx";
+import {Footer} from "./sections/Footer.tsx";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <div
             style={{
                 // height: "10000px"
+                // overscrollBehavior:"none"
             }}
         >
             {/*<WindowRevealer/>*/}
@@ -26,15 +28,20 @@ function App() {
 
                         <MainToolbar/>
                         <div
-                            style={{}}
+                            style={{
+                                // overscrollBehavior:"none"
+
+                            }}
                         >
                             <HeadSection/>
                             <BackgroundCanvas/>
-                            {/*<Section1/>*/}
-                            <Section3/>
                             <Section2/>
+                            <Section3/>
+                            <Section1/>
+
 
                         </div>
+                        <Footer/>
                     </ShipControllerProvider>
                 </BackgroundTextProvider>
             </WeatherContextProvider>
