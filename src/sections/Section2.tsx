@@ -17,7 +17,7 @@ import Fluxergy from "../assets/Fluxergy.png"
 import UCI from "../assets/uci.jpg"
 import DnD from "../assets/180Days.png"
 import SMAC from "../assets/smac_fire.jpg"
-import Blank from "../assets/blank.png"
+import Blank from "../assets/Blank.png"
 import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx"
 
 export interface PageOverlayPropsType {
