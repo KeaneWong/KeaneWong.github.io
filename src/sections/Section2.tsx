@@ -564,7 +564,8 @@ export const Section2 = ({
                                         </i>
                                         <br/><br/>
                                         &ensp;A modern blog platform for cooking
-                                        content creators to Roast, Post, and Host.
+                                        content creators
+                                        to <b>roast</b>, <b>post</b>, and <b>host</b>.
                                         Bringing accessible recipes, inspired by
                                         tradition.
                                         <br/><br/>
