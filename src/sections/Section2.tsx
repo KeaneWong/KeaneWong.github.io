@@ -625,7 +625,7 @@ export const Section2 = ({
                                         variant={"body2"}
                                     ><br/>
             <u>
-                                            See what else I'm up to >
+                                            See what else I'm up to {'>'}
 </u>
 
                                     </Typography>
