@@ -560,12 +560,13 @@ export const Section2 = ({
                                     >
                                         <i>
                                             Full-Stack recipe website, built
-                                            on PERN and powered by AWS.
+                                            with PERN and powered by AWS.
                                         </i>
                                         <br/><br/>
-                                        &ensp;Our team experimented endlessly with recipes,
-                                        inspired by tradition and adapted for accessibility
-                                        in the modern kitchen.
+                                        &ensp;A modern blog platform for cooking
+                                        content creators to Roast, Post, and Host.
+                                        Bringing accessible recipes, inspired by
+                                        tradition.
                                         <br/><br/>
                                         <b>
                                         [Currently undergoing a makeover!]
