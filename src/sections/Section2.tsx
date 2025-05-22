@@ -325,8 +325,8 @@ export const Section2 = ({
                                             next generation diagnostic devices.</i>
                                         <br/><br/>
                                         &ensp;I designed the firmware
-                                        communications API, wrote the system task scheduler,
-                                        and helped to develop the user interfaces.
+                                        communications API, wrote the system's primary
+                                        task runner, and worked to develop the user interfaces.
                                         <br/>
                                         &ensp;Totally unlike any other system, which
                                         makes every hurdle both challenging and
@@ -385,7 +385,7 @@ export const Section2 = ({
                                         <i>Research tools for cutting edge antibody
                                             correlation technology.</i>
                                         <br/><br/>
-                                        &ensp;We catalogued hundreds of billions of sequences,
+                                        &ensp;We catalogued hundreds of billions of sequences
                                         across the human and bacterial proteomes
                                         and isolated antibody sequences to support
                                         the fight against Alzheimer's and other diseases.
