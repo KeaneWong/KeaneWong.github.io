@@ -3,14 +3,15 @@ import {
     Box,
     SxProps,
     Grid,
-    Popover, Collapse,
+    Popover, Collapse, Divider,
 } from "@mui/material"
 import {useState, ReactNode} from 'react';
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer";
-import {RevealCaption, RevealCaptionTimeout, SubCaption} from "./HeadSection.tsx"
+import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout, SubCaption} from "./HeadSection.tsx"
 import {css, keyframes, styled} from "styled-components";
 import Resume from "../assets/KeaneWong.pdf";
+import {useIsMobile} from "../hooks/useIsMobile.tsx";
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -59,10 +60,11 @@ export const Item = ({
     };
 
     const open = Boolean(anchorEl);
+    const isMobile = useIsMobile();
     return (
 
         <SubCaption
-            variant={"h5"}
+            variant={!isMobile ? "h5": "h6"}
             sx={{
                 textAlign: 'end',
                 // px: 1,
@@ -98,11 +100,7 @@ export const Item = ({
     )
 }
 export const Section1 = ({
-                             sx = {
-                                 width: '100vw',
-                                 height: '100vh',
-
-                             }
+                             sx = {}
                          }: PageOverlayPropsType) => {
     const {
         setTargetString,
@@ -132,6 +130,7 @@ export const Section1 = ({
         onChange: changeText
     });
 
+    const isMobile = useIsMobile();
 
     return (
         <Box
@@ -140,6 +139,9 @@ export const Section1 = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
+                width: '100vw',
+                minHeight: '100vh',
+
                 ...sx,
             }}
             ref={ref}
@@ -147,7 +149,7 @@ export const Section1 = ({
             <Box
                 sx={{
                     display: 'block',
-                    pr: 4,
+                    pr: 2,
 
                 }}
             >
@@ -197,9 +199,12 @@ export const Section1 = ({
                             >
 
                                 <Typography
-                                    variant={'h2'}
+                                    variant={
+                                    !isMobile ? 'h2' : 'h4'
+                                }
                                     sx={{
                                         whiteSpace: 'nowrap',
+                                        fontWeight: !isMobile ? 'auto': 'light',
                                     }}
                                 >
                                     Skills and Tools.
@@ -208,49 +213,22 @@ export const Section1 = ({
                         </Collapse>
 
                     </Box>
-                    <Box
-                        sx={{
-                            width: 1000,
-                            // mb: 3
-                        }}
-                    >
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
+                    <RevealCaptionBlock
+                            isIn={isCurrentlyInView}
+                            timeout={RevealCaptionTimeout}
+                            lines={
+                            !isMobile ?[
+                                "Here's a list of some of the things I can do."
+                            ] : [
+                                "Here's a small ",
+                                "list of things I can do.",
+                                "Or, if you have something to " ,
+                                "teach, I'm always looking to learn.",
+                            ]}
+                        />
 
-                        >
-                            Here's a list of some of the things i can do.
-                        </RevealCaption>
-                        {/*<RevealCaption*/}
-                        {/*    transitionProps={{*/}
-                        {/*        in: isCurrentlyInView,*/}
-                        {/*        orientation: 'horizontal',*/}
-                        {/*        timeout: RevealCaptionTimeout,*/}
-                        {/*    }}*/}
-                        {/*    variant={'h6'}*/}
-
-                        {/*>*/}
-                        {/*    If I can offer any help, I'm always open to chat*/}
-                        {/*</RevealCaption>*/}
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-
-                        >
-                            If you have something to teach, I'm always looking to learn.
-                        </RevealCaption>
-
-
-                    </Box>
                 </Box>
+
                 <Box
                     sx={{
                         display: 'flex',
@@ -269,9 +247,10 @@ export const Section1 = ({
                                 mt: 2,
                                 // width: 300,
                             }}
-                            columnSpacing={4}
+                            columnSpacing={
+                            !isMobile ? 4 : 0}
                         >
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         <>
@@ -281,21 +260,21 @@ export const Section1 = ({
                                     }
                                 >Web Design</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item
                                     popoverNode={
                                         "Started 2019 and Hooked on it ever since."
                                     }
                                 >React</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         "ISO approved security, at lightning speeds."
                                     }
                                 >Backend</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item
                                     popoverNode={
                                         <>Query on, My<sub
@@ -304,27 +283,27 @@ export const Section1 = ({
                                     }
                                 >SQL</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         "Large-scale data analyzed and distilled into research."
                                     }
                                 >Data Analysis</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item
                                     popoverNode={
                                         "Flask, FastAPI, Pandas and many more."
                                     }
                                 >Python</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         "Cloud functions and data analysis on Google Cloud Platform (GCP), and AWS."}
                                 >Cloud Engineering</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item
                                     popoverNode={
                                         "Includes what you're looking at now!"
@@ -332,21 +311,21 @@ export const Section1 = ({
                                 >ThreeJS</Item>
                             </Grid>
 
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         "Custom TCP and UDP protocols implemented in real time systems."
                                     }
                                 >Network Interfaces</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item
                                     popoverNode={
                                         "Using Azure Pipelines, and Github Actions."
                                     }
                                 >DevOps</Item>
                             </Grid>
-                            <Grid size={6}>
+                            <Grid size={7}>
                                 <Item
                                     popoverNode={
                                         "Including HTTP RESTful APIs, and Real Time Protocols."
@@ -360,7 +339,7 @@ export const Section1 = ({
                             {/*        }*/}
                             {/*    >Game Developmeny</Item>*/}
                             {/*</Grid>*/}
-                            <Grid size={6}>
+                            <Grid size={5}>
                                 <Item>
                                     <a
                                         href={Resume}

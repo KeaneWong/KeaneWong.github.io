@@ -5,16 +5,17 @@ import {
     Collapse,
     createTheme,
     ThemeProvider,
-    CollapseProps,
+    TypographyOwnProps,
+    CollapseProps, SxProps,
 } from "@mui/material"
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer"
 // import Me from "../assets/Subject.png"
 import Me from "../assets/MySillhouette.tsx"
 import {animationTimeSeconds} from "../components/EyeOpener.tsx";
-import {useState, useEffect} from "react";
+import {useState, useEffect, ReactNode} from "react";
 import {useWeatherController} from "../hooks/useWeatherController.tsx";
-
+import {useIsMobile} from "../hooks/useIsMobile"
 
 export const SubCaption = ({
                                sx,
@@ -67,6 +68,7 @@ export const NameSillhouette = () => {
             sx={{
                 position: "relative",
                 zIndex: 100,
+                overflow: 'hidden'
             }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
@@ -127,6 +129,51 @@ export const NameSillhouette = () => {
     )
 }
 
+export interface RevealCaptionBlockProps {
+    isIn: boolean,
+    timeout: number,
+    lines: ReactNode[],
+    sx?: SxProps,
+    textVariant: TypographyOwnProps["variant"],
+}
+
+export const RevealCaptionBlock = ({
+                                       isIn,
+                                       timeout,
+                                       lines,
+    sx={},
+    textVariant="h6"
+                                   }: RevealCaptionBlockProps) => {
+    return (
+        <Box
+            sx={{
+                width: 1000,
+                ...sx
+            }}
+        >
+            {
+                lines.map((line, index) => {
+                    return (
+                        <RevealCaption
+                            key={index}
+                            transitionProps={{
+                                in: isIn,
+                                orientation: 'horizontal',
+                                timeout: timeout,
+                            }}
+                            variant={textVariant}
+
+                        >
+                            {line}
+                        </RevealCaption>
+                    )
+                })
+            }
+
+        </Box>
+    )
+}
+
 export const RevealCaptionTimeout = 1000
 
 export const HeadSection = () => {
@@ -165,12 +212,16 @@ export const HeadSection = () => {
         onChange: changeText
     });
 
+    const isMobile = useIsMobile();
+
     return (
         <Box
             sx={{
                 position: 'absolute',
                 width: '100vw',
-                height: '100vh',
+                // height: !isMobile ? '100vh': 'auto' ,
+                // minHeight: !isMobile ? 'auto': "100vh",
+                minHeight: "100vh",
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
@@ -188,9 +239,11 @@ export const HeadSection = () => {
                 }}
             >
                 <Typography
-                    variant={'h2'}
+                    variant={
+                    !isMobile ?'h2' : 'h3'}
                     sx={{
-                        textAlign: 'right'
+                        textAlign: 'right',
+                        fontWeight: !isMobile ? 'auto': 'light'
                     }}
                 >
                     Hello there, I'm
@@ -212,41 +265,27 @@ export const HeadSection = () => {
                     </Collapse>
                 </Box>
 
-                <Box
-                    sx={{
-                        width: 1000
-                    }}
-                >
-                    <RevealCaption
-                        transitionProps={{
-                            in: isCurrentlyInView,
-                            orientation: 'horizontal',
-                            timeout: RevealCaptionTimeout,
-                        }}
 
-                    >
-                        and I build applications, design
-                    </RevealCaption>
+                    <RevealCaptionBlock
+                        isIn={isCurrentlyInView}
+                        timeout={RevealCaptionTimeout}
+                        lines={
+                            !isMobile ?
+                                [
+                                    "and I build applications, design",
+                                    "websites, and develop research tools. And, I'm",
+                                    "obsessed with the intersection of creativity and engineering."
+                                ] : [
+                                    "and I build applications, design",
+                                    "websites, and develop research",
+                                    "tools. And, I'm obsessed with",
+                                    "the intersection of creativity",
+                                    "and engineering."
+                                ]
+                        }
+                    />
 
-                    <RevealCaption
-                        transitionProps={{
-                            in: isCurrentlyInView,
-                            orientation: 'horizontal',
-                            timeout: RevealCaptionTimeout,
-                        }}
-                    >
-                        websites, and develop research tools. And, I'm
-                    </RevealCaption>
-                    <RevealCaption
-                        transitionProps={{
-                            in: isCurrentlyInView,
-                            orientation: 'horizontal',
-                            timeout: RevealCaptionTimeout,
-                        }}
-                    >
-                        obsessed with the intersection of creativity and engineering.
-                    </RevealCaption>
-                </Box>
+
 
             </Box>
         </Box>

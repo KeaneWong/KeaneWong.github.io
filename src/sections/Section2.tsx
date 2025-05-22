@@ -19,7 +19,8 @@ import DnD from "../assets/180Days.png"
 import SMAC from "../assets/smac_fire.jpg"
 import Blank from "../assets/Blank.png"
 import Itadakimasu from "../assets/Cooking.jpeg"
-import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx"
+import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx"
+import {useIsMobile} from "../hooks/useIsMobile.tsx";
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -107,6 +108,7 @@ export const Section2 = ({
         setTargetString,
         setTextProps
     } = useBackgroundText();
+    const isMobile = useIsMobile();
 
     const newString =
         "<a href='linkedin.com/in/KeaneWong'>\n" +
@@ -213,10 +215,11 @@ export const Section2 = ({
                                     }}
                                 >
                                     <Typography
-                                        variant={'h2'}
+                                        variant={
+                                        !isMobile ? 'h2': "h3"}
                                         sx={{
                                             whiteSpace: 'nowrap',
-
+                                            fontWeight: !isMobile ? "auto": 'light',
                                         }}
                                     >
                                         My Experience.
@@ -225,40 +228,22 @@ export const Section2 = ({
                             </Box>
                         </Collapse>
                     </Box>
-                    <Box
+
+                    <RevealCaptionBlock
                         sx={{
-                            width: 1000,
                             mb: 3
                         }}
-                    >
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                        >
-                            Here's a couple highlights of some stuff I've worked on.
-                        </RevealCaption>
+                        isIn={isCurrentlyInView}
+                        timeout={RevealCaptionTimeout}
+                        lines={!isMobile ? [
+                        "Here's a couple highlights of some stuff I've worked on.\n"
 
-                        {/*<RevealCaption*/}
-                        {/*    transitionProps={{*/}
-                        {/*        in: isCurrentlyInView,*/}
-                        {/*        orientation: 'horizontal',*/}
-                        {/*        timeout: RevealCaptionTimeout,*/}
-                        {/*    }}*/}
-                        {/*>*/}
+                        ] : [
+                            "Here's a couple highlights of \n",
+                            "some stuff I've worked on."
+                        ]}
 
-                        {/*</RevealCaption>*/}
-                        {/*<RevealCaption*/}
-                        {/*    transitionProps={{*/}
-                        {/*        in: isCurrentlyInView,*/}
-                        {/*        orientation: 'horizontal',*/}
-                        {/*        timeout: RevealCaptionTimeout,*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*</RevealCaption>*/}
-                    </Box>
+                    />
 
                 </Box>
 

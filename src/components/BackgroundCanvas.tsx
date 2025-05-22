@@ -5,19 +5,18 @@ import Hippos from "../assets/Hippos.jpg"
 import
 {
     Canvas,
-    useThree,
-    useFrame,
-
 } from '@react-three/fiber'
 import {CameraWrapper} from "./CameraWrapper.tsx";
-import { BackWall } from './Rain/BackWall.tsx';
+import {BackWall} from './Rain/BackWall.tsx';
 import {DirectionLightWrapper} from "./DirectionLightWrapper.tsx";
+import {useIsMobile} from "../hooks/useIsMobile.tsx";
 
 const PARALLAX = 2
 
 export const BackgroundCanvas = () => {
     const [x, setX] = useState(0)
     const [y, setY] = useState(0)
+    const isMobile = useIsMobile()
     useEffect(() => {
         const PanMovement = (event) => {
             const newX = (window.innerWidth - event.pageX * PARALLAX) / 90;
@@ -26,11 +25,13 @@ export const BackgroundCanvas = () => {
             setY(newY)
         }
 
-
-        document.addEventListener("mousemove", PanMovement)
-        return () => {
-            document.removeEventListener("mousemove", PanMovement)
+        if (isMobile) {
+            document.addEventListener("mousemove", PanMovement)
+            return () => {
+                document.removeEventListener("mousemove", PanMovement)
+            }
         }
+
 
     }, [])
     return (
@@ -48,7 +49,7 @@ export const BackgroundCanvas = () => {
                 style={{
                     width: '100%',
                     height: '100%',
-                    transform: `translateX(${x}px) translateY(${y}px) scale(1.09) `,
+                    transform: `translateX(${x}px) translateY(${y}px) scale(${isMobile ? 1.0 : 1.09}) `,
 
                 }}
             >
@@ -58,7 +59,7 @@ export const BackgroundCanvas = () => {
                     <RainyWindow
                     />
                     <BackWall
-                        position={[0,0,0]}
+                        position={[0, 0, 0]}
                     />
                     <ambientLight
                         color={"#fff"}

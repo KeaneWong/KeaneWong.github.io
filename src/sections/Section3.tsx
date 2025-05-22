@@ -8,19 +8,16 @@ import {
 import {useInView} from "react-intersection-observer";
 import {useState} from "react";
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
-import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx";
+import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx";
 import {useWeatherController} from "../hooks/useWeatherController.tsx";
+import {useIsMobile} from "../hooks/useIsMobile.tsx";
 
 export interface Section3Props {
     sx?: SxProps
 }
 
 export const Section3 = ({
-                             sx = {
-                                 width: '100vw',
-                                 height: '100vh',
-
-                             }
+                             sx = {}
                          }: Section3Props) => {
     const {
         setTargetString,
@@ -54,6 +51,7 @@ export const Section3 = ({
         threshold: 0.6,
         onChange: changeText
     });
+    const isMobile = useIsMobile();
 
     return (
         <Box
@@ -63,6 +61,8 @@ export const Section3 = ({
                 justifyContent: 'center',
                 boxSizing: 'border-box',
                 pb: 5,
+                width: '100vw',
+                minHeight: '100vh',
                 ...sx,
             }}
             ref={ref}
@@ -127,87 +127,29 @@ export const Section3 = ({
                             </Box>
                         </Collapse>
                     </Box>
-                    <Box
-                        sx={{
-                            display: 'block',
-                            width: 1000,
+                    <RevealCaptionBlock
+                        isIn={isCurrentlyInView}
+                        timeout={RevealCaptionTimeout}
+                        textVariant={"h6"}
+                        lines={!isMobile ? [
+                            "I'm a SoCal based software engineer",
+                            "specializing in full-stack applications and web",
+                            "development. I like to work with unconventional",
+                            "innovations and I love the challenges that come with",
+                            "working on new things. I dream of building things that impact",
+                            "our daily lives in an important way."
+                        ] : [
+                            "I'm a SoCal based software engineer",
+                            "specializing in full-stack apps and ",
+                            "web development. I like to work with",
+                            "unconventional innovations and I love ",
+                            "the challenges that come with working ",
+                            "on new things.",
+                            "I dream of building things that impact",
+                            "our daily lives in an important way.",
+                        ]
+                        }/>
 
-                            // mb: 3
-                        }}
-                    >
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            sx={{
-                                whiteSpace: 'pre-wrap',
-                                // textAlign: 'end',
-                                // textJustify: 'inter-word',
-                                // width: 500
-                            }}
-                            variant={'h6'}
-
-                        >
-                            I'm a SoCal based software engineer
-
-                        </RevealCaption>
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-                        >
-                            specializing in full-stack applications and web
-                        </RevealCaption>
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-
-                        >
-                            development. I like to work with unconventional
-                        </RevealCaption>
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-
-                        >
-                            innovations and I love the challenges that come with
-                        </RevealCaption>
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-
-                        >
-                            working on them. I dream of building things that impact our
-                        </RevealCaption>
-                        <RevealCaption
-                            transitionProps={{
-                                in: isCurrentlyInView,
-                                orientation: 'horizontal',
-                                timeout: RevealCaptionTimeout,
-                            }}
-                            variant={'h6'}
-
-                        >
-                            daily lives in an important way.
-                        </RevealCaption>
-                    </Box>
                 </Box>
 
 

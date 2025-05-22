@@ -36,8 +36,8 @@ function App() {
                             <HeadSection/>
                             <BackgroundCanvas/>
                             <Section2/>
-                            <Section3/>
                             <Section1/>
+                            <Section3/>
 
 
                         </div>
