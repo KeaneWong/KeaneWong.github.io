@@ -18,6 +18,7 @@ import UCI from "../assets/uci.jpg"
 import DnD from "../assets/180Days.png"
 import SMAC from "../assets/smac_fire.jpg"
 import Blank from "../assets/Blank.png"
+import Itadakimasu from "../assets/Cooking.jpeg"
 import {RevealCaption, RevealCaptionTimeout} from "./HeadSection.tsx"
 
 export interface PageOverlayPropsType {
@@ -445,10 +446,9 @@ export const Section2 = ({
                                         <i>An interactive game website and dice roller for
                                             my original D&D campaign.</i>
                                         <br/><br/>
-                                        &ensp;It's a little window to my imagination. I
-                                        put this together as a dice roller my players can
-                                        fiddle with during games, with little secrets
-                                        scattered about for my most inquisitive players.
+                                        &ensp;I put this together as a dice roller my players can
+                                        play with during games, with little secrets
+                                        scattered about for my inquisitive players.
                                         <br/>
                                         &ensp;And, maybe you'll spot some of it's secrets
                                         as well. Just watch out for the <strong>monster.</strong>
@@ -530,6 +530,67 @@ export const Section2 = ({
                                 md: 4
                             }}
                         >
+
+                                <PictureCard
+                                    src={Itadakimasu}
+                                    sx={{
+                                        textAlign: 'left',
+                                        display: 'block',
+                                        p: 1,
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            // mb: 1,
+                                        }}
+                                        variant={"h5"}
+                                    >
+                                        Itadakimasu
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            // textAlign: "left",
+                                            whiteSpace: 'pre-wrap'
+                                        }}
+                                        variant={"body2"}
+                                    >
+                                        <i>
+                                            Full-Stack recipe website, built
+                                            on PERN and powered by AWS.
+                                        </i>
+                                        <br/><br/>
+                                        &ensp;Our team experimented endlessly with recipes,
+                                        inspired by tradition and adapted for accessibility
+                                        in the modern kitchen.
+                                        <br/><br/>
+                                        <b>
+                                        [Currently undergoing a makeover!]
+                                            </b>
+
+
+
+                                    </Typography>
+                                </PictureCard>
+                        </Grid>
+                    </Grow>
+                    <Grow
+                        in={isCurrentlyInView}
+                        timeout={{
+                            enter: 3000,
+                            appear: 3000,
+                            exit: 1000,
+                        }}
+                    >
+                        <Grid
+                            size={{
+                                xs: 6,
+                                md: 4
+                            }}
+                        >
                             <a
                                 target={"_blank"}
                                 href={"https://github.com/KeaneWong"}
@@ -552,7 +613,7 @@ export const Section2 = ({
                                         }}
                                         variant={"h5"}
                                     >
-                                        &ensp;Curious about any of these?
+                                        Want to see more?
                                     </Typography>
                                     <Typography
                                         sx={{
