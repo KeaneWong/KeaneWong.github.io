@@ -99,7 +99,7 @@ export const PictureCard = ({
 export const Section2 = ({
                              sx = {
                                  width: '100vw',
-                                 height: '100vh',
+                                 minHeight: '100vh',
                                  mt: 5,
                              }
                          }: PageOverlayPropsType) => {
