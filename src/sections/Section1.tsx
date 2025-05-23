@@ -3,12 +3,17 @@ import {
     Box,
     SxProps,
     Grid,
-    Popover, Collapse, Divider,
+
+    Popper,
+    ClickAwayListener,
+    Grow,
+    Collapse
 } from "@mui/material"
-import {useState, ReactNode} from 'react';
+
+import {useState, ReactNode,} from 'react';
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer";
-import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout, SubCaption} from "./HeadSection.tsx"
+import {RevealCaptionBlock, RevealCaptionTimeout, SubCaption} from "./HeadSection.tsx"
 import {css, keyframes, styled} from "styled-components";
 import Resume from "../assets/KeaneWong.pdf";
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
@@ -19,7 +24,7 @@ export interface PageOverlayPropsType {
 
 export interface ItemPropsType {
     children?: ReactNode;
-    popoverNode?: ReactNode;
+    popperNode?: ReactNode;
 }
 
 const rainbowEffect = keyframes`
@@ -43,57 +48,73 @@ const RainbowEffectSpan = styled("span")(
 
 export const Item = ({
                          children,
-                         popoverNode
+                         popperNode
                      }: {
     children: ReactNode,
-    popoverNode: ReactNode,
+    popperNode: ReactNode,
 }) => {
+    const isMobile = useIsMobile();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handlePopperOpen = (event: React.MouseEvent<HTMLElement>) => {
+        if (!isMobile) {
+            setAnchorEl(event.currentTarget);
+
+        }
     };
 
-    const handlePopoverClose = () => {
-        setAnchorEl(null);
+    const handlePopperClose = () => {
+        if (!isMobile) {
+            setAnchorEl(null);
+        }
     };
 
     const open = Boolean(anchorEl);
-    const isMobile = useIsMobile();
+
     return (
 
         <SubCaption
-            variant={!isMobile ? "h5": "h6"}
+            variant={!isMobile ? "h5" : "h6"}
             sx={{
                 textAlign: 'end',
                 // px: 1,
                 width: 'auto',
-                textWrap: 'nowrap'
+                textWrap: 'nowrap',
             }}
-            onMouseEnter={handlePopoverOpen}
-            onMouseLeave={handlePopoverClose}
+            onMouseEnter={handlePopperOpen}
+            onMouseLeave={handlePopperClose}
+
         >
             {children}
-            {popoverNode && <Popover
-                sx={{pointerEvents: 'none'}}
-                open={open}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-            >
-                <Typography sx={{
-                    p: 1,
-
-                }}>{popoverNode}</Typography>
-            </Popover>}
+            {popperNode &&
+                <ClickAwayListener
+                    onClickAway={handlePopperClose}
+                >
+                    <Popper
+                        sx={{pointerEvents: 'none'}}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement={'left'}
+                        transition
+                    >
+                        {({TransitionProps}) => (
+                            <Grow
+                                {...TransitionProps}
+                                direction={'left'}
+                                timeout={250}
+                            >
+                                <Typography sx={{
+                                    p: 1,
+                                    color: 'black',
+                                    backgroundColor: 'white',
+                                    borderRadius: 3,
+                                }}>
+                                    {popperNode}
+                                </Typography>
+                            </Grow>
+                        )}
+                    </Popper>
+                </ClickAwayListener>}
         </SubCaption>
 
     )
@@ -199,11 +220,11 @@ export const Section1 = ({
 
                                 <Typography
                                     variant={
-                                    !isMobile ? 'h2' : 'h4'
-                                }
+                                        !isMobile ? 'h2' : 'h4'
+                                    }
                                     sx={{
                                         whiteSpace: 'nowrap',
-                                        fontWeight: !isMobile ? 'auto': 'light',
+                                        fontWeight: !isMobile ? 'auto' : 'light',
                                     }}
                                 >
                                     Skills and Tools.
@@ -213,18 +234,18 @@ export const Section1 = ({
 
                     </Box>
                     <RevealCaptionBlock
-                            isIn={isCurrentlyInView}
-                            timeout={RevealCaptionTimeout}
-                            lines={
-                            !isMobile ?[
+                        isIn={isCurrentlyInView}
+                        timeout={RevealCaptionTimeout}
+                        lines={
+                            !isMobile ? [
                                 "Here's a list of some of the things I can do."
                             ] : [
                                 "Here's a small ",
                                 "list of things I can do.",
-                                "Or, if you have something to " ,
+                                "Or, if you have something to ",
                                 "teach, I'm always looking to learn.",
                             ]}
-                        />
+                    />
 
                 </Box>
 
@@ -245,13 +266,14 @@ export const Section1 = ({
                             sx={{
                                 mt: 2,
                                 // width: 300,
+                                overScrollBehavior: "auto"
                             }}
                             columnSpacing={
-                            !isMobile ? 4 : 0}
+                                !isMobile ? 4 : 0}
                         >
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         <>
                                             {new Date().getFullYear() - 2020}+ years of practice&#20;
                                             <RainbowEffectSpan>and counting.</RainbowEffectSpan>
@@ -261,21 +283,21 @@ export const Section1 = ({
                             </Grid>
                             <Grid size={5}>
                                 <Item
-                                    popoverNode={
-                                        "Started 2019 and Hooked on it ever since."
+                                    popperNode={
+                                        <>Started 2019 and <i>hooked</i> on it ever since.</>
                                     }
                                 >React</Item>
                             </Grid>
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "ISO approved security, at lightning speeds."
                                     }
                                 >Backend</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         <>Query on, My<sub
 
                                         ><small>SQL</small></sub> wayward son...</>
@@ -284,27 +306,27 @@ export const Section1 = ({
                             </Grid>
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Large-scale data analyzed and distilled into research."
                                     }
                                 >Data Analysis</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Flask, FastAPI, Pandas and many more."
                                     }
                                 >Python</Item>
                             </Grid>
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Cloud functions and data analysis on Google Cloud Platform (GCP), and AWS."}
                                 >Cloud Engineering</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Includes what you're looking at now!"
                                     }
                                 >ThreeJS</Item>
@@ -312,34 +334,38 @@ export const Section1 = ({
 
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Custom TCP and UDP protocols implemented in real time systems."
                                     }
                                 >Network Interfaces</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Using Azure Pipelines, and Github Actions."
                                     }
                                 >DevOps</Item>
                             </Grid>
                             <Grid size={7}>
                                 <Item
-                                    popoverNode={
+                                    popperNode={
                                         "Including HTTP RESTful APIs, and Real Time Protocols."
                                     }
                                 >Full Stack</Item>
                             </Grid>
                             {/*<Grid size={6}>*/}
                             {/*    <Item*/}
-                            {/*        popoverNode={*/}
+                            {/*        popperNode={*/}
                             {/*            "Strapped with UI/UX design to Boot!"*/}
                             {/*        }*/}
                             {/*    >Game Developmeny</Item>*/}
                             {/*</Grid>*/}
                             <Grid size={5}>
-                                <Item>
+                                <Item
+                                      popperNode={
+                                        "Link to my Resume."
+                                    }
+                                >
                                     <a
                                         href={Resume}
                                         target={"_blank"}
@@ -348,6 +374,7 @@ export const Section1 = ({
                                             color: 'inherit',
                                             textDecoration: "inherit"
                                         }}
+
                                     >
                                         <u>
                                             And more
