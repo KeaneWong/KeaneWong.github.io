@@ -105,6 +105,7 @@ const Quote = styled("div")(
         align-items: center;
         font-size: 12vw;
         white-space: nowrap;
+        display: flex;
         animation: ${QuoteRemover} ${animationTime} ease-in-out 0s;
     `
 );

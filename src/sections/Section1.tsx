@@ -31,7 +31,6 @@ const rainbowEffect = keyframes`
         background-position: 300px 0%;
     }
 `;
-console.log(rainbowEffect);
 const RainbowEffectSpan = styled("span")(
     () => css`
         background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
