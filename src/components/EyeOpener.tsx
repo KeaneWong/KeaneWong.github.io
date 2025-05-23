@@ -95,9 +95,7 @@ const Bottom = styled(CustomizedDiv)`
 
 const Quote = styled("div")(
     () => css`
-        //z-index: -1000;
         z-index: 999;
-        //background-color: '#000';
         pointer-events: none;
         position: fixed;
         width: 100vw;
@@ -105,7 +103,7 @@ const Quote = styled("div")(
         opacity: 0;
         justify-content: center;
         align-items: center;
-        font-size: 6rem;
+        font-size: 12vw;
         white-space: nowrap;
         animation: ${QuoteRemover} ${animationTime} ease-in-out 0s;
     `
