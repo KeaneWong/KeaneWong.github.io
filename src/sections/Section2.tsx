@@ -17,7 +17,7 @@ import Fluxergy from "../assets/Fluxergy.png"
 import UCI from "../assets/uci.jpg"
 import DnD from "../assets/180Days.png"
 import SMAC from "../assets/smac_fire.jpg"
-import Blank from "../assets/Blank.png"
+import Blank from "../assets/Blank_ish.png"
 import Itadakimasu from "../assets/Cooking.jpeg"
 import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx"
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
@@ -29,6 +29,7 @@ export interface PageOverlayPropsType {
 export interface PictureCardPropsType extends PaperProps {
     children: ReactNode,
     src: string,
+    hoverOverride?: boolean,
 }
 
 
@@ -37,6 +38,7 @@ export const PictureCard = ({
                                 src,
                                 elevation = 10,
                                 sx = {},
+    hoverOverride=false,
                                 ...rest
                             }: PictureCardPropsType) => {
     const [hover, setHover] = useState<boolean>(false);
@@ -50,7 +52,7 @@ export const PictureCard = ({
                 position: 'relative',
                 overflow: 'hidden',
                 boxSizing: 'border-box',
-                transform: hover ? "scale(1.03)" : undefined,
+                transform: (hoverOverride || hover) ? "scale(1.03)" : undefined,
                 transition: "all 0.3s ease-out",
 
                 ...sx,
@@ -69,7 +71,7 @@ export const PictureCard = ({
                     top: 0,
                     zIndex: 1,
                     left: 0,
-                    opacity: hover ? 0.2 : 1,
+                    opacity: (hoverOverride || hover) ? 0.2 : 1,
                     transition: "all 0.3s ease-out",
                 }}
             />
@@ -79,7 +81,7 @@ export const PictureCard = ({
                     width: 1,
                     height: 1,
                     position: 'relative',
-                    opacity: hover ? 1 : 0,
+                    opacity: (hoverOverride || hover) ? 1 : 0,
                     display: 'flex',
                     flexDirection: "column",
                     justifyContent: 'center',
@@ -216,10 +218,10 @@ export const Section2 = ({
                                 >
                                     <Typography
                                         variant={
-                                        !isMobile ? 'h2': "h3"}
+                                            !isMobile ? 'h2' : "h3"}
                                         sx={{
                                             whiteSpace: 'nowrap',
-                                            fontWeight: !isMobile ? "auto": 'light',
+                                            fontWeight: !isMobile ? "auto" : 'light',
                                         }}
                                     >
                                         My Experience.
@@ -236,7 +238,7 @@ export const Section2 = ({
                         isIn={isCurrentlyInView}
                         timeout={RevealCaptionTimeout}
                         lines={!isMobile ? [
-                        "Here's a couple highlights of some stuff I've worked on.\n"
+                            "Here's a couple highlights of some stuff I've worked on.\n"
 
                         ] : [
                             "Here's a couple highlights of \n",
@@ -290,8 +292,8 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
+
+                                            fontSize: "max(14px, 3vi)",
                                         }}
                                         variant={"h5"}
                                     >
@@ -300,15 +302,16 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
                                             whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
 
                                         }}
                                         variant={"body2"}
                                     >
                                         <i>Full-stack development for affordable,
                                             next generation diagnostic devices.</i>
-                                        <br/><br/>
+                                        <br/>
+                                        {!isMobile && <br/>}
                                         &ensp;I designed the firmware
                                         communications API, wrote the system's primary
                                         task runner, and worked to develop the user interfaces.
@@ -352,8 +355,7 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
+                                            fontSize: "max(12px, 2vi)",
                                         }}
                                         variant={"h5"}
                                     >
@@ -362,14 +364,15 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            whiteSpace: 'pre-wrap'
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
                                         }}
                                         variant={"body2"}
                                     >
                                         <i>Research tools for cutting edge antibody
                                             correlation technology.</i>
-                                        <br/><br/>
+                                        <br/>
+                                        {!isMobile && <br/>}
                                         &ensp;We catalogued hundreds of billions of sequences
                                         across the human and bacterial proteomes
                                         and isolated antibody sequences to support
@@ -413,8 +416,8 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
+
+                                            fontSize: "max(12px, 2.8vi)",
                                         }}
                                         variant={"h5"}
                                     >
@@ -423,14 +426,15 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            whiteSpace: 'pre-wrap'
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
                                         }}
                                         variant={"body2"}
                                     >
                                         <i>An interactive game website and dice roller for
                                             my original D&D campaign.</i>
-                                        <br/><br/>
+                                        <br/>
+                                        {!isMobile && <br/>}
                                         &ensp;I put this together as a dice roller my players can
                                         play with during games, with little secrets
                                         scattered about for my inquisitive players.
@@ -472,8 +476,8 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
+                                            fontSize: "max(12px, 2.2vi)",
+
                                         }}
                                         variant={"h5"}
                                     >
@@ -482,15 +486,17 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            // textAlign: "left",
-                                            whiteSpace: 'pre-wrap'
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
+
                                         }}
                                         variant={"body2"}
                                     >
                                         <i>Predicting the spread of wildfires informed
                                             by closed-loop sensing and machine learning
                                             classification models.</i>
-                                        <br/><br/>
+                                        <br/>
+                                        {!isMobile && <br/>}
                                         &ensp;We put together infrastructure for reliable,
                                         distributed systems; the kind of systems that
                                         would hold up after you sent them flying into
@@ -516,52 +522,52 @@ export const Section2 = ({
                             }}
                         >
 
-                                <PictureCard
-                                    src={Itadakimasu}
+                            <PictureCard
+                                src={Itadakimasu}
+                                sx={{
+                                    textAlign: 'left',
+                                    display: 'block',
+                                    p: 1,
+                                    boxSizing: 'border-box',
+                                }}
+                            >
+                                <Typography
                                     sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
+                                        width: 1,
+                                        fontSize: "max(14px, 3vi)",
                                     }}
+                                    variant={"h5"}
                                 >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        Itadakimasu
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            // textAlign: "left",
-                                            whiteSpace: 'pre-wrap'
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>
-                                            Full-Stack recipe website, built
-                                            with PERN and powered by AWS.
-                                        </i>
-                                        <br/><br/>
-                                        &ensp;A modern blog platform for cooking
-                                        content creators
-                                        to <b>roast</b>, <b>post</b>, and <b>host</b>.
-                                        Bringing accessible recipes, inspired by
-                                        tradition.
-                                        <br/><br/>
-                                        <b>
+                                    Itadakimasu
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        width: 1,
+                                        whiteSpace: 'pre-wrap',
+                                        fontSize: "max(8px, 1.2vi)",
+
+                                    }}
+                                    variant={"body2"}
+                                >
+                                    <i>
+                                        Full-Stack recipe website, built
+                                        with PERN and powered by AWS.
+                                    </i>
+                                    <br/>
+                                    {!isMobile &&<br/>}
+                                    &ensp;A modern blog platform for cooking
+                                    content creators
+                                    to <b>roast</b>, <b>post</b>, and <b>host</b>.
+                                    Bringing accessible recipes, inspired by
+                                    tradition.
+                                    <br/><br/>
+                                    <b>
                                         [Currently undergoing a makeover!]
-                                            </b>
+                                    </b>
 
 
-
-                                    </Typography>
-                                </PictureCard>
+                                </Typography>
+                            </PictureCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -590,30 +596,23 @@ export const Section2 = ({
                                         p: 1,
                                         boxSizing: 'border-box',
                                     }}
+                                    // hoverOverride={true}
                                 >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            // textAlign: "left",
-                                            // mb: 1,
 
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        Want to see more?
-                                    </Typography>
                                     <Typography
                                         sx={{
                                             width: 1,
                                             textAlign: "right",
                                             pr: 2,
-                                            whiteSpace: 'pre-wrap'
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(12px, 1.6vi)",
                                         }}
                                         variant={"body2"}
                                     ><br/>
-            <u>
+                                        <u>
+                                            {"\n\n\n\n\n"}
                                             See what else I'm up to {'>'}
-</u>
+                                        </u>
 
                                     </Typography>
                                 </PictureCard>

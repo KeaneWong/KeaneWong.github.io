@@ -128,7 +128,7 @@ export const Section1 = ({
     } = useBackgroundText();
     const [isCurrentlyInView, setIsCurrentlyInView] = useState<boolean>(false);
     const newString =
-        "\nFeel free to talk to me about anything\n" +
+        "Feel free to talk to me about anything\n" +
         "on here. Or not on here, \n" +
         "for that matter."
 
