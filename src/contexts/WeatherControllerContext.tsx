@@ -70,13 +70,13 @@ export const WeatherContextProvider = ({children}: {
             const adjustedPos = pos
             if (
                 Math.abs(
-                    ((1 - adjustedPos) * rainProps.u_intensity + 0.16) -
+                    ((1 - adjustedPos) * rainProps.u_intensity + 0.10) -
                     rainProps.u_intensity) > 0.05
             ) {
                 setRainProps((oldRainProps) => {
                     return {
                         ...oldRainProps,
-                        u_intensity: defaultRainProps.u_intensity * (1 - adjustedPos) + 0.16,
+                        u_intensity: defaultRainProps.u_intensity * (1 - adjustedPos) + 0.10,
                         // u_blur_iterations: Math.max(Math.round(12 * (1-adjustedPos) ), 1),
                         u_lightning: adjustedPos < 0.5
                     }
