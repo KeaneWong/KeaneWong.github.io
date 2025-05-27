@@ -276,7 +276,7 @@ export const Section1 = ({
                                     popperNode={
                                         <>
                                             {new Date().getFullYear() - 2020}+ years of practice&#20;
-                                            <RainbowEffectSpan>and counting.</RainbowEffectSpan>
+                                            <RainbowEffectSpan> and counting.</RainbowEffectSpan>
                                         </>
                                     }
                                 >Web Design</Item>
