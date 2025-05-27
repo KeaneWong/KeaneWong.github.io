@@ -114,7 +114,7 @@ const PossibleQuotes = [
     "Black Water",
     "Wake Up",
     "Take Over",
-    "All We Want",
+    "Good Mornin'",
     "Half Awake",
     "Love the Rain",
 ]
