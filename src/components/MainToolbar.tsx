@@ -40,8 +40,7 @@ export const MainToolbar = () => {
 
             >
                 <IconButton>
-                    <a href="mailto:keanewong913@gmail.com?subject=Introductions!&body=Hello%20Keane%2C%0A%0A%0ANice%20to%20meet%20you!%20I%20wanted%20to%20talk%20to%20you%20about...%0A...%0A......%0A.........%0A%0ABest%20Regards%2C%20%0A%0AMy%20one%20and%20only%20self.">
-                        <EmailIcon {...iconProps}/>
+<a href="mailto:keanewong913@gmail.com?subject=Introductions!&body=Hello%20Keane%2C%0A%0ANice%20to%20meet%20you!%20I%20wanted%20to%20talk%20to%20you%20about...%0A...%0A...%0A%0ABest%20regards%2C%0A">                        <EmailIcon {...iconProps}/>
                     </a>
 
                 </IconButton>

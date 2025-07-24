@@ -363,7 +363,7 @@ export const Section1 = ({
                             <Grid size={5}>
                                 <Item
                                       popperNode={
-                                        "Link to my Resume."
+                                        "Download link to my resume."
                                     }
                                 >
                                     <a

@@ -19,6 +19,7 @@ import DnD from "../assets/180Days.png"
 import SMAC from "../assets/smac_fire.jpg"
 import Blank from "../assets/Blank_ish.png"
 import Itadakimasu from "../assets/Cooking.jpeg"
+import SatelliteShell from "../assets/SatelliteShell.png"
 import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx"
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
 
@@ -441,6 +442,67 @@ export const Section2 = ({
                                         <br/>
                                         &ensp;And, maybe you'll spot some of it's secrets
                                         as well. Just watch out for the <strong>monster.</strong>
+                                    </Typography>
+                                </PictureCard>
+                            </a>
+                        </Grid>
+                    </Grow>
+                    <Grow
+                        in={isCurrentlyInView}
+                        timeout={{
+                            enter: 3000,
+                            appear: 3000,
+                            exit: 1000,
+                        }}
+                    >
+                        <Grid
+                            size={{
+                                xs: 6,
+                                md: 4
+                            }}
+                        >
+                            <a
+                                target={"_blank"}
+                                href={"https://keanewong.github.io/Satellite-Shell"}
+                            >
+                                <PictureCard
+                                    src={SatelliteShell}
+                                    sx={{
+                                        textAlign: 'left',
+                                        display: 'block',
+                                        p: 1,
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            fontSize: "max(14x, 3vi)",
+
+                                        }}
+                                        variant={"h5"}
+                                    >
+                                        The Satellite Shell
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
+
+                                        }}
+                                        variant={"body2"}
+                                    >
+                                        <i>
+                                            A one-stop dev blog for the projects
+                                            I do just for myself.
+                                        </i>
+                                        <br/>
+                                        {!isMobile && <br/>}
+                                        &ensp; Original projects, weekly indie game
+                                            updates, and lifestyle advice from a
+                                            little cosmic window in space.
+
                                     </Typography>
                                 </PictureCard>
                             </a>
