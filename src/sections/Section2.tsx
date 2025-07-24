@@ -569,69 +569,69 @@ export const Section2 = ({
                             </a>
                         </Grid>
                     </Grow>
-                    <Grow
-                        in={isCurrentlyInView}
-                        timeout={{
-                            enter: 3000,
-                            appear: 3000,
-                            exit: 1000,
-                        }}
-                    >
-                        <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
-                        >
+                    {/*<Grow*/}
+                    {/*    in={isCurrentlyInView}*/}
+                    {/*    timeout={{*/}
+                    {/*        enter: 3000,*/}
+                    {/*        appear: 3000,*/}
+                    {/*        exit: 1000,*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <Grid*/}
+                    {/*        size={{*/}
+                    {/*            xs: 6,*/}
+                    {/*            md: 4*/}
+                    {/*        }}*/}
+                    {/*    >*/}
 
-                            <PictureCard
-                                src={Itadakimasu}
-                                sx={{
-                                    textAlign: 'left',
-                                    display: 'block',
-                                    p: 1,
-                                    boxSizing: 'border-box',
-                                }}
-                            >
-                                <Typography
-                                    sx={{
-                                        width: 1,
-                                        fontSize: "max(14px, 3vi)",
-                                    }}
-                                    variant={"h5"}
-                                >
-                                    Itadakimasu
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        width: 1,
-                                        whiteSpace: 'pre-wrap',
-                                        fontSize: "max(8px, 1.2vi)",
+                    {/*        <PictureCard*/}
+                    {/*            src={Itadakimasu}*/}
+                    {/*            sx={{*/}
+                    {/*                textAlign: 'left',*/}
+                    {/*                display: 'block',*/}
+                    {/*                p: 1,*/}
+                    {/*                boxSizing: 'border-box',*/}
+                    {/*            }}*/}
+                    {/*        >*/}
+                    {/*            <Typography*/}
+                    {/*                sx={{*/}
+                    {/*                    width: 1,*/}
+                    {/*                    fontSize: "max(14px, 3vi)",*/}
+                    {/*                }}*/}
+                    {/*                variant={"h5"}*/}
+                    {/*            >*/}
+                    {/*                Itadakimasu*/}
+                    {/*            </Typography>*/}
+                    {/*            <Typography*/}
+                    {/*                sx={{*/}
+                    {/*                    width: 1,*/}
+                    {/*                    whiteSpace: 'pre-wrap',*/}
+                    {/*                    fontSize: "max(8px, 1.2vi)",*/}
 
-                                    }}
-                                    variant={"body2"}
-                                >
-                                    <i>
-                                        Full-Stack recipe website, built
-                                        with PERN and powered by AWS.
-                                    </i>
-                                    <br/>
-                                    {!isMobile &&<br/>}
-                                    &ensp;A modern blog platform for cooking
-                                    content creators
-                                    to <b>roast</b>, <b>post</b>, and <b>host</b>.
-                                    Bringing accessible recipes, inspired by
-                                    tradition.
-                                    <br/><br/>
-                                    <b>
-                                        [Currently undergoing a makeover!]
-                                    </b>
+                    {/*                }}*/}
+                    {/*                variant={"body2"}*/}
+                    {/*            >*/}
+                    {/*                <i>*/}
+                    {/*                    Full-Stack recipe website, built*/}
+                    {/*                    with PERN and powered by AWS.*/}
+                    {/*                </i>*/}
+                    {/*                <br/>*/}
+                    {/*                {!isMobile &&<br/>}*/}
+                    {/*                &ensp;A modern blog platform for cooking*/}
+                    {/*                content creators*/}
+                    {/*                to <b>roast</b>, <b>post</b>, and <b>host</b>.*/}
+                    {/*                Bringing accessible recipes, inspired by*/}
+                    {/*                tradition.*/}
+                    {/*                <br/><br/>*/}
+                    {/*                <b>*/}
+                    {/*                    [Currently undergoing a makeover!]*/}
+                    {/*                </b>*/}
 
 
-                                </Typography>
-                            </PictureCard>
-                        </Grid>
-                    </Grow>
+                    {/*            </Typography>*/}
+                    {/*        </PictureCard>*/}
+                    {/*    </Grid>*/}
+                    {/*</Grow>*/}
                     <Grow
                         in={isCurrentlyInView}
                         timeout={{
