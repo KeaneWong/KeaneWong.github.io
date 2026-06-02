@@ -1,3 +1,9 @@
+A starter project for React with Vite, ThreEjs and Typescript. This starter kit is already pre-configured with absolute import, React Router, and other goodies.
+
+This project is intended for beginners to become familiar with portfolio sites as well as the basics of using threeJS and shaders. This uses a custom shader to mimic rain, creates a sample scene showing a rainy day window, has fancy text and CSS animations and is good to use as a jumping point for anyone trying to learn these stacks. 
+
+This is a static website but is good for web devs.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
