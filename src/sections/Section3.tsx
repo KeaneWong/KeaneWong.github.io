@@ -11,6 +11,7 @@ import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx";
 import {useWeatherController} from "../hooks/useWeatherController.tsx";
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
+import {contentColumnWidth, fluidType, PAGE_GUTTER} from "../styles/layout.ts";
 
 export interface Section3Props {
     sx?: SxProps
@@ -61,7 +62,7 @@ export const Section3 = ({
                 justifyContent: 'center',
                 boxSizing: 'border-box',
                 pb: 5,
-                width: '100vw',
+                width: '100%',
                 minHeight: '100vh',
                 ...sx,
             }}
@@ -72,14 +73,16 @@ export const Section3 = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'end',
-                    pr: 2,
 
                 }}
             >
 
                 <Box
                     sx={{
-                        display: 'block'
+                        display: 'block',
+                        width: contentColumnWidth,
+                        px: PAGE_GUTTER,
+                        boxSizing: 'border-box',
                     }}
                 >
                     <Box
@@ -118,7 +121,7 @@ export const Section3 = ({
                                     variant={'h2'}
                                     sx={{
                                         whiteSpace: 'nowrap',
-
+                                        fontSize: fluidType.heading,
                                     }}
                                 >
                                     About.
@@ -132,21 +135,21 @@ export const Section3 = ({
                         timeout={RevealCaptionTimeout}
                         textVariant={"h6"}
                         lines={!isMobile ? [
-                            "I'm a SoCal based software engineer",
-                            "specializing in full-stack applications and web",
-                            "development. I like to work with unconventional",
+                            "I'm a Brooklyn based engineer specializing in",
+                            "embedded software and AI hardware, backed by a",
+                            "full-stack background. I like to work with unconventional",
                             "innovations and I love the challenges that come with",
-                            "working on new things. I dream of building things that impact",
-                            "our daily lives in an important way."
+                            "building close to the metal. I dream of making things that",
+                            "impact our daily lives in an important way."
                         ] : [
-                            "I'm a SoCal based software engineer",
-                            "specializing in full-stack apps and ",
-                            "web development. I like to work with",
-                            "unconventional innovations and I love ",
-                            "the challenges that come with working ",
-                            "on new things.",
-                            "I dream of building things that impact",
-                            "our daily lives in an important way.",
+                            "I'm a Brooklyn based engineer",
+                            "specializing in embedded software ",
+                            "and AI hardware, backed by a ",
+                            "full-stack background. I like to work ",
+                            "with unconventional innovations and ",
+                            "I love the challenges of building ",
+                            "close to the metal. I dream of making",
+                            "things that impact our daily lives.",
                         ]
                         }/>
 

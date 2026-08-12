@@ -16,6 +16,12 @@ import {animationTimeSeconds} from "../components/EyeOpener.tsx";
 import {useState, useEffect, ReactNode} from "react";
 import {useWeatherController} from "../hooks/useWeatherController.tsx";
 import {useIsMobile} from "../hooks/useIsMobile"
+import {
+    collapsibleLineWidth,
+    contentColumnWidth,
+    fluidType,
+    PAGE_GUTTER,
+} from "../styles/layout.ts";
 
 export const SubCaption = ({
                                sx,
@@ -27,7 +33,9 @@ export const SubCaption = ({
             {...rest}
             sx={{
                 textAlign: 'end',
-                width: '1000px',
+                // Must be a definite width, or the line re-wraps mid-reveal.
+                width: collapsibleLineWidth,
+                textShadow: 'var(--scene-text-outline)',
                 ...sx
             }}
         >
@@ -68,7 +76,8 @@ export const NameSillhouette = () => {
             sx={{
                 position: "relative",
                 zIndex: 100,
-                overflow: 'hidden'
+                overflow: 'hidden',
+                maxWidth: '100%',
             }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
@@ -90,6 +99,7 @@ export const NameSillhouette = () => {
 
                 <Typography
                     variant={'h1'}
+                    sx={{fontSize: fluidType.displayName}}
                 >
                     Keane
                 </Typography>
@@ -114,6 +124,7 @@ export const NameSillhouette = () => {
 
                 <Typography
                     variant={'h1'}
+                    sx={{fontSize: fluidType.displayName}}
                 >
                     Keane
                 </Typography>
@@ -147,7 +158,7 @@ export const RevealCaptionBlock = ({
     return (
         <Box
             sx={{
-                width: 1000,
+                width: '100%',
                 ...sx
             }}
         >
@@ -162,7 +173,7 @@ export const RevealCaptionBlock = ({
                                 timeout: timeout,
                             }}
                             variant={textVariant}
-
+                            sx={{fontSize: fluidType.caption}}
                         >
                             {line}
                         </RevealCaption>
@@ -218,7 +229,7 @@ export const HeadSection = () => {
         <Box
             sx={{
                 position: 'absolute',
-                width: '100vw',
+                width: '100%',
                 // height: !isMobile ? '100vh': 'auto' ,
                 // minHeight: !isMobile ? 'auto': "100vh",
                 minHeight: "100vh",
@@ -234,16 +245,19 @@ export const HeadSection = () => {
             <Box
                 sx={{
                     display: 'block',
-                    pr: 2,
+                    width: contentColumnWidth,
+                    px: PAGE_GUTTER,
+                    boxSizing: 'border-box',
                     zIndex: 1,
                 }}
             >
                 <Typography
-                    variant={
-                    !isMobile ?'h2' : 'h3'}
+                    variant={'h2'}
                     sx={{
                         textAlign: 'right',
-                        fontWeight: !isMobile ? 'auto': 'light'
+                        fontSize: fluidType.introHeading,
+                        fontWeight: 'light',
+                        textShadow: 'var(--scene-text-outline)',
                     }}
                 >
                     Hello there, I'm
@@ -272,14 +286,14 @@ export const HeadSection = () => {
                         lines={
                             !isMobile ?
                                 [
-                                    "and I build applications, design",
-                                    "websites, and develop research tools. And, I'm",
-                                    "obsessed with the intersection of creativity and engineering."
+                                    "and I build the firmware that brings",
+                                    "new AI hardware to life. And, I'm obsessed",
+                                    "with the intersection of creativity and engineering."
                                 ] : [
-                                    "and I build applications, design",
-                                    "websites, and develop research",
-                                    "tools. And, I'm obsessed with",
-                                    "the intersection of creativity",
+                                    "and I build the firmware that",
+                                    "brings new AI hardware to life.",
+                                    "And, I'm obsessed with the",
+                                    "intersection of creativity",
                                     "and engineering."
                                 ]
                         }

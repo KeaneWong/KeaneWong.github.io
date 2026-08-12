@@ -38,7 +38,7 @@ export const BackgroundCanvas = () => {
         <div
             style={{
                 position: 'sticky',
-                width: '100vw',
+                width: '100%',
                 height: '100vh',
                 overflow: 'hidden',
                 zIndex: -100,

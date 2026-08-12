@@ -10,7 +10,7 @@ export const Footer = () => {
     return (
         <Box
             sx={{
-                height: 200,
+                minHeight: 200,
                 bottom: 0,
                 width: 1,
                 backgroundColor: "#242424",
@@ -18,10 +18,13 @@ export const Footer = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-around',
+                gap: 2,
+                pt: 3,
                 pb: 3,
-                px: 4,
+                px: {xs: 2, sm: 4},
                 boxSizing: 'border-box',
-                textAlign: 'start'
+                textAlign: 'start',
+                overflowWrap: 'anywhere',
 
             }}
             // showLabels
@@ -29,9 +32,11 @@ export const Footer = () => {
             <Box
                 sx={{
                     display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: 3,
                     justifyContent: 'space-between',
                     // alignItems: 'center',
-                    px: 4,
+                    px: {xs: 0, sm: 4},
                 }}
             >
 

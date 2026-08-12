@@ -10,7 +10,7 @@ import {
     PaperProps,
     Paper,
 } from "@mui/material"
-import {useState, ReactNode} from 'react';
+import {useState, ReactNode, CSSProperties} from 'react';
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
 import {useInView} from "react-intersection-observer";
 import Fluxergy from "../assets/Fluxergy.png"
@@ -20,8 +20,12 @@ import SMAC from "../assets/smac_fire.jpg"
 import Blank from "../assets/Blank_ish.png"
 import Itadakimasu from "../assets/Cooking.jpeg"
 import SatelliteShell from "../assets/SatelliteShell.png"
+import MetaLogo from "../assets/meta-logo.webp"
 import {RevealCaption, RevealCaptionBlock, RevealCaptionTimeout} from "./HeadSection.tsx"
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
+import {contentColumnWidth, fluidType, PAGE_GUTTER} from "../styles/layout.ts";
+
+const CARD_SIZE = {xs: 6, md: 4};
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -31,6 +35,7 @@ export interface PictureCardPropsType extends PaperProps {
     children: ReactNode,
     src: string,
     hoverOverride?: boolean,
+    imgStyle?: CSSProperties,
 }
 
 
@@ -40,6 +45,7 @@ export const PictureCard = ({
                                 elevation = 10,
                                 sx = {},
     hoverOverride=false,
+                                imgStyle,
                                 ...rest
                             }: PictureCardPropsType) => {
     const [hover, setHover] = useState<boolean>(false);
@@ -74,6 +80,7 @@ export const PictureCard = ({
                     left: 0,
                     opacity: (hoverOverride || hover) ? 0.2 : 1,
                     transition: "all 0.3s ease-out",
+                    ...imgStyle,
                 }}
             />
             <Box
@@ -102,7 +109,7 @@ export const PictureCard = ({
 
 export const Section2 = ({
                              sx = {
-                                 width: '100vw',
+                                 width: '100%',
                                  minHeight: '100vh',
                                  mt: 5,
                              }
@@ -143,7 +150,9 @@ export const Section2 = ({
     }
 
     const {ref} = useInView({
-        threshold: 0.45,
+        // Lower than the other sections: the ratio is a fraction of the element,
+        // and this grid can outgrow the viewport. Too high and it never reveals.
+        threshold: 0.25,
         onChange: changeText
     });
 
@@ -166,14 +175,15 @@ export const Section2 = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'end',
-                    pr: 2,
                 }}
 
             >
                 <Box
                     sx={{
                         display: 'block',
-
+                        width: contentColumnWidth,
+                        px: PAGE_GUTTER,
+                        boxSizing: 'border-box',
                     }}
                 >
                     <Box
@@ -218,11 +228,11 @@ export const Section2 = ({
                                     }}
                                 >
                                     <Typography
-                                        variant={
-                                            !isMobile ? 'h2' : "h3"}
+                                        variant={'h2'}
                                         sx={{
                                             whiteSpace: 'nowrap',
-                                            fontWeight: !isMobile ? "auto" : 'light',
+                                            fontSize: fluidType.heading,
+                                            fontWeight: 'light',
                                         }}
                                     >
                                         My Experience.
@@ -258,8 +268,8 @@ export const Section2 = ({
                     container
                     spacing={3}
                     sx={{
-                        px: 2,
-                        mx: 4
+                        px: {xs: 1, sm: 2},
+                        mx: {xs: 1, sm: 4},
                     }}
                 >
                     <Grow
@@ -271,10 +281,76 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4,
-                            }}
+                            size={CARD_SIZE}
+                        >
+                            <a
+                                target={"_blank"}
+                                href={"https://www.meta.com/"}
+                            >
+
+                                <PictureCard
+                                    src={MetaLogo}
+                                    // Wordmark is near-black, so it needs a light backdrop.
+                                    imgStyle={{
+                                        objectFit: 'contain',
+                                        background: '#fff',
+                                        padding: '10%',
+                                        boxSizing: 'border-box',
+                                    }}
+                                    sx={{
+                                        textAlign: 'left',
+                                        display: 'block',
+                                        p: 1,
+                                        boxSizing: 'border-box',
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+
+                                            fontSize: "max(14px, 3vi)",
+                                        }}
+                                        variant={"h5"}
+                                    >
+                                        Meta
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            width: 1,
+                                            whiteSpace: 'pre-wrap',
+                                            fontSize: "max(8px, 1.2vi)",
+
+                                        }}
+                                        variant={"body2"}
+                                    >
+                                        <i>Firmware engineering for the next
+                                            generation of AI hardware.</i>
+                                        <br/>
+                                        {!isMobile && <br/>}
+                                        &ensp;I work where the silicon meets the
+                                        software: bringing up new boards, writing the
+                                        drivers, and building the datapaths that
+                                        everything above them depends on.
+                                        <br/>
+                                        &ensp;Down here latency and reliability aren't
+                                        features you add later, they're decided in the
+                                        design. Running AI at this scale means every
+                                        microsecond is a deliberate choice.
+                                    </Typography>
+                                </PictureCard>
+                            </a>
+                        </Grid>
+                    </Grow>
+                    <Grow
+                        in={isCurrentlyInView}
+                        timeout={{
+                            enter: 2000,
+                            appear: 2000,
+                            exit: 0,
+                        }}
+                    >
+                        <Grid
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}
@@ -334,10 +410,7 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}
@@ -395,10 +468,7 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}
@@ -456,10 +526,7 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}
@@ -477,7 +544,7 @@ export const Section2 = ({
                                     <Typography
                                         sx={{
                                             width: 1,
-                                            fontSize: "max(14x, 3vi)",
+                                            fontSize: "max(14px, 3vi)",
 
                                         }}
                                         variant={"h5"}
@@ -517,10 +584,7 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}
@@ -641,10 +705,7 @@ export const Section2 = ({
                         }}
                     >
                         <Grid
-                            size={{
-                                xs: 6,
-                                md: 4
-                            }}
+                            size={CARD_SIZE}
                         >
                             <a
                                 target={"_blank"}

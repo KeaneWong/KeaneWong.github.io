@@ -17,6 +17,12 @@ import {RevealCaptionBlock, RevealCaptionTimeout, SubCaption} from "./HeadSectio
 import {css, keyframes, styled} from "styled-components";
 import Resume from "../assets/KeaneWong.pdf";
 import {useIsMobile} from "../hooks/useIsMobile.tsx";
+import {
+    contentColumnWidth,
+    fluidType,
+    PAGE_GUTTER,
+    skillsColumnWidth,
+} from "../styles/layout.ts";
 
 export interface PageOverlayPropsType {
     sx?: SxProps
@@ -74,11 +80,12 @@ export const Item = ({
     return (
 
         <SubCaption
-            variant={!isMobile ? "h5" : "h6"}
+            variant={"h5"}
             sx={{
                 textAlign: 'end',
                 // px: 1,
                 width: 'auto',
+                fontSize: fluidType.skill,
                 textWrap: 'nowrap',
             }}
             onMouseEnter={handlePopperOpen}
@@ -159,7 +166,7 @@ export const Section1 = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'end',
-                width: '100vw',
+                width: '100%',
                 minHeight: '100vh',
 
                 ...sx,
@@ -169,8 +176,9 @@ export const Section1 = ({
             <Box
                 sx={{
                     display: 'block',
-                    pr: 2,
-
+                    width: contentColumnWidth,
+                    px: PAGE_GUTTER,
+                    boxSizing: 'border-box',
                 }}
             >
                 <Box
@@ -219,12 +227,11 @@ export const Section1 = ({
                             >
 
                                 <Typography
-                                    variant={
-                                        !isMobile ? 'h2' : 'h4'
-                                    }
+                                    variant={'h2'}
                                     sx={{
                                         whiteSpace: 'nowrap',
-                                        fontWeight: !isMobile ? 'auto' : 'light',
+                                        fontSize: fluidType.heading,
+                                        fontWeight: 'light',
                                     }}
                                 >
                                     Skills and Tools.
@@ -258,7 +265,7 @@ export const Section1 = ({
                     }}
                 >
                     <Box sx={{
-                        width: 400,
+                        width: skillsColumnWidth,
 
                     }}>
                         <Grid
@@ -274,42 +281,23 @@ export const Section1 = ({
                             <Grid size={7}>
                                 <Item
                                     popperNode={
-                                        <>
-                                            {new Date().getFullYear() - 2020}+ years of practice&#20;
-                                            <RainbowEffectSpan> and counting.</RainbowEffectSpan>
-                                        </>
+                                        "Bare-metal and RTOS targets, where every cycle and byte is accounted for."
                                     }
-                                >Web Design</Item>
+                                >Embedded C/C++</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
                                     popperNode={
-                                        <>Started 2019 and <i>hooked</i> on it ever since.</>
+                                        "Moving data between machines without troubling the CPU."
                                     }
-                                >React</Item>
+                                >RDMA</Item>
                             </Grid>
                             <Grid size={7}>
                                 <Item
                                     popperNode={
-                                        "ISO approved security, at lightning speeds."
+                                        "Teaching brand new hardware to speak to the rest of the stack."
                                     }
-                                >Backend</Item>
-                            </Grid>
-                            <Grid size={5}>
-                                <Item
-                                    popperNode={
-                                        <>Query on, My<sub
-
-                                        ><small>SQL</small></sub> wayward son...</>
-                                    }
-                                >SQL</Item>
-                            </Grid>
-                            <Grid size={7}>
-                                <Item
-                                    popperNode={
-                                        "Large-scale data analyzed and distilled into research."
-                                    }
-                                >Data Analysis</Item>
+                                >Device Drivers</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
@@ -321,8 +309,26 @@ export const Section1 = ({
                             <Grid size={7}>
                                 <Item
                                     popperNode={
-                                        "Cloud functions and data analysis on Google Cloud Platform (GCP), and AWS."}
-                                >Cloud Engineering</Item>
+                                        "Taking the operating system back out of the hot path."
+                                    }
+                                >Kernel Bypass</Item>
+                            </Grid>
+                            <Grid size={5}>
+                                <Item
+                                    popperNode={
+                                        <>Started 2019 and <i>hooked</i> on it ever since.</>
+                                    }
+                                >React</Item>
+                            </Grid>
+                            <Grid size={7}>
+                                <Item
+                                    popperNode={
+                                        <>
+                                            {new Date().getFullYear() - 2020}+ years of practice&#20;
+                                            <RainbowEffectSpan> and counting.</RainbowEffectSpan>
+                                        </>
+                                    }
+                                >Web Design</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
@@ -331,27 +337,25 @@ export const Section1 = ({
                                     }
                                 >ThreeJS</Item>
                             </Grid>
-
                             <Grid size={7}>
                                 <Item
                                     popperNode={
-                                        "Custom TCP and UDP protocols implemented in real time systems."
+                                        "Large-scale data analyzed and distilled into research."
                                     }
-                                >Network Interfaces</Item>
+                                >Data Analysis</Item>
                             </Grid>
                             <Grid size={5}>
                                 <Item
                                     popperNode={
-                                        "Using Azure Pipelines, and Github Actions."
+                                        "ISO approved security, at lightning speeds."
                                     }
-                                >DevOps</Item>
+                                >Backend</Item>
                             </Grid>
                             <Grid size={7}>
                                 <Item
                                     popperNode={
-                                        "Including HTTP RESTful APIs, and Real Time Protocols."
-                                    }
-                                >Full Stack</Item>
+                                        "Cloud functions and data analysis on Google Cloud Platform (GCP), and AWS."}
+                                >Cloud Engineering</Item>
                             </Grid>
                             {/*<Grid size={6}>*/}
                             {/*    <Item*/}
