@@ -472,7 +472,7 @@ export const Section2 = ({
                         >
                             <a
                                 target={"_blank"}
-                                href={"https://keanewong.github.io/The16Planes/"}
+                                href={"https://planes.keanewong.com"}
                             >
 
                                 <PictureCard
@@ -530,7 +530,7 @@ export const Section2 = ({
                         >
                             <a
                                 target={"_blank"}
-                                href={"https://keanewong.github.io/Satellite-Shell"}
+                                href={"https://shell.keanewong.com"}
                             >
                                 <PictureCard
                                     src={SatelliteShell}
