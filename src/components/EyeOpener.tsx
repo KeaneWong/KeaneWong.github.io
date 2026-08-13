@@ -32,25 +32,20 @@ const OpeningEyes = keyframes`
     }
 `
 
+// Opacity, not display: animating display forces a style recalc mid-blink.
 const QuoteRemover = keyframes`
     0% {
-        display: flex;
         background-color: rgba(0, 0, 0, 1);
         opacity: 1;
     }
     30% {
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        //font-size: 10em;
         opacity: 1;
     }
     31% {
-        display: none;
+        opacity: 0;
     }
     100% {
-        display: none;
+        opacity: 0;
     }
 `
 
@@ -71,8 +66,8 @@ const Lid = styled("div")(
         left: 0;
         width: 100%;
         height: 50%;
-        will-change: transform;
-        animation: ${OpeningEyes} ${animationTime} ease-in-out 0s;
+        /* forwards: without it the lids revert to the fallback when it ends. */
+        animation: ${OpeningEyes} ${animationTime} ease-in-out 0s forwards;
     `
 );
 

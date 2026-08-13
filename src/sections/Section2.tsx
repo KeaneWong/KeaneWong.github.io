@@ -9,6 +9,8 @@ import {
     Collapse,
     PaperProps,
     Paper,
+    Drawer,
+    Button,
 } from "@mui/material"
 import {useState, ReactNode, CSSProperties} from 'react';
 import {useBackgroundText} from "../hooks/useBackgroundText.tsx";
@@ -36,6 +38,7 @@ export interface PictureCardPropsType extends PaperProps {
     src: string,
     hoverOverride?: boolean,
     imgStyle?: CSSProperties,
+    disableHover?: boolean,
 }
 
 
@@ -46,9 +49,11 @@ export const PictureCard = ({
                                 sx = {},
     hoverOverride=false,
                                 imgStyle,
+                                disableHover = false,
                                 ...rest
                             }: PictureCardPropsType) => {
     const [hover, setHover] = useState<boolean>(false);
+    const revealed = hoverOverride || (!disableHover && hover);
     return (
         <Paper
             elevation={elevation}
@@ -59,7 +64,7 @@ export const PictureCard = ({
                 position: 'relative',
                 overflow: 'hidden',
                 boxSizing: 'border-box',
-                transform: (hoverOverride || hover) ? "scale(1.03)" : undefined,
+                transform: revealed ? "scale(1.03)" : undefined,
                 transition: "all 0.3s ease-out",
 
                 ...sx,
@@ -78,7 +83,7 @@ export const PictureCard = ({
                     top: 0,
                     zIndex: 1,
                     left: 0,
-                    opacity: (hoverOverride || hover) ? 0.2 : 1,
+                    opacity: revealed ? 0.2 : 1,
                     transition: "all 0.3s ease-out",
                     ...imgStyle,
                 }}
@@ -89,7 +94,7 @@ export const PictureCard = ({
                     width: 1,
                     height: 1,
                     position: 'relative',
-                    opacity: (hoverOverride || hover) ? 1 : 0,
+                    opacity: revealed ? 1 : 0,
                     display: 'flex',
                     flexDirection: "column",
                     justifyContent: 'center',
@@ -103,6 +108,130 @@ export const PictureCard = ({
             </Box>
 
         </Paper>
+    )
+}
+
+export interface ExperienceCardPropsType {
+    href: string,
+    src: string,
+    title?: ReactNode,
+    titleSx?: SxProps,
+    bodySx?: SxProps,
+    imgStyle?: CSSProperties,
+    sheetTitle?: ReactNode,
+    sheetContent?: ReactNode,
+    linkLabel?: string,
+    children: ReactNode,
+}
+
+// No hover on touch, and the blurb does not fit the card.
+export const ExperienceCard = ({
+                                   href,
+                                   src,
+                                   title,
+                                   titleSx = {},
+                                   bodySx = {},
+                                   imgStyle,
+                                   sheetTitle,
+                                   sheetContent,
+                                   linkLabel = "Visit site",
+                                   children,
+                               }: ExperienceCardPropsType) => {
+    const isMobile = useIsMobile();
+    const [open, setOpen] = useState<boolean>(false);
+
+    const card = (
+        <PictureCard
+            src={src}
+            imgStyle={imgStyle}
+            disableHover={isMobile}
+            sx={{
+                textAlign: 'left',
+                display: 'block',
+                p: 1,
+                boxSizing: 'border-box',
+            }}
+        >
+            {title && (
+                <Typography sx={{width: 1, ...titleSx}} variant={"h5"}>
+                    {title}
+                </Typography>
+            )}
+            <Typography
+                sx={{
+                    width: 1,
+                    whiteSpace: 'pre-wrap',
+                    fontSize: "max(8px, 1.2vi)",
+                    ...bodySx,
+                }}
+                variant={"body2"}
+            >
+                {children}
+            </Typography>
+        </PictureCard>
+    )
+
+    if (!isMobile) {
+        return <a target={"_blank"} href={href}>{card}</a>
+    }
+
+    return (
+        <>
+            <Box
+                role={"button"}
+                tabIndex={0}
+                onClick={() => setOpen(true)}
+                onKeyDown={(e) => e.key === 'Enter' && setOpen(true)}
+                sx={{cursor: 'pointer'}}
+            >
+                {card}
+            </Box>
+            <Drawer
+                anchor={"bottom"}
+                open={open}
+                onClose={() => setOpen(false)}
+                slotProps={{
+                    paper: {
+                        sx: {
+                            backgroundColor: '#161616',
+                            backgroundImage: 'none',
+                            color: 'var(--scene-text-color)',
+                            borderTopLeftRadius: 16,
+                            borderTopRightRadius: 16,
+                            maxHeight: '85svh',
+                            px: 3,
+                            pt: 3,
+                            pb: 4,
+                            textAlign: 'left',
+                        },
+                    },
+                }}
+            >
+                <Typography variant={"h5"} sx={{mb: 1.5}}>
+                    {sheetTitle ?? title}
+                </Typography>
+                <Typography
+                    variant={"body2"}
+                    sx={{whiteSpace: 'pre-wrap', fontSize: '0.95rem', lineHeight: 1.65, mb: 3}}
+                >
+                    {sheetContent ?? children}
+                </Typography>
+                <Button
+                    component={"a"}
+                    href={href}
+                    target={"_blank"}
+                    fullWidth
+                    variant={"outlined"}
+                    sx={{
+                        color: 'inherit',
+                        borderColor: 'rgba(255, 255, 255, 0.35)',
+                        '&:hover': {borderColor: 'rgba(255, 255, 255, 0.7)'},
+                    }}
+                >
+                    {linkLabel}
+                </Button>
+            </Drawer>
+        </>
     )
 }
 
@@ -283,62 +412,33 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://www.meta.com/"}
+                                src={MetaLogo}
+                                title={"Meta"}
+                                titleSx={{fontSize: "max(14px, 3vi)"}}
+                                // Wordmark is near-black, so it needs a light backdrop.
+                                imgStyle={{
+                                    objectFit: 'contain',
+                                    background: '#fff',
+                                    padding: '10%',
+                                    boxSizing: 'border-box',
+                                }}
                             >
-
-                                <PictureCard
-                                    src={MetaLogo}
-                                    // Wordmark is near-black, so it needs a light backdrop.
-                                    imgStyle={{
-                                        objectFit: 'contain',
-                                        background: '#fff',
-                                        padding: '10%',
-                                        boxSizing: 'border-box',
-                                    }}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-
-                                            fontSize: "max(14px, 3vi)",
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        Meta
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>Firmware engineering for the next
-                                            generation of AI hardware.</i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp;I work where the silicon meets the
-                                        software: bringing up new boards, writing the
-                                        drivers, and building the datapaths that
-                                        everything above them depends on.
-                                        <br/>
-                                        &ensp;Down here latency and reliability aren't
-                                        features you add later, they're decided in the
-                                        design. Running AI at this scale means every
-                                        microsecond is a deliberate choice.
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>Firmware engineering for the next
+                                    generation of AI hardware.</i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp;I work where the silicon meets the
+                                software: bringing up new boards, writing the
+                                drivers, and building the datapaths that
+                                everything above them depends on.
+                                <br/>
+                                &ensp;Down here latency and reliability aren't
+                                features you add later, they're decided in the
+                                design. Running AI at this scale means every
+                                microsecond is a deliberate choice.
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -352,53 +452,24 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://www.fluxergy.com/technology#Fluxergy-Works"}
+                                src={Fluxergy}
+                                title={"Fluxergy"}
+                                titleSx={{fontSize: "max(14px, 3vi)"}}
                             >
-
-                                <PictureCard
-                                    src={Fluxergy}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-
-                                            fontSize: "max(14px, 3vi)",
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        Fluxergy
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>Full-stack development for affordable,
-                                            next generation diagnostic devices.</i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp;I designed the firmware
-                                        communications API, wrote the system's primary
-                                        task runner, and worked to develop the user interfaces.
-                                        <br/>
-                                        &ensp;Totally unlike any other system, which
-                                        makes every hurdle both challenging and
-                                        endlessly interesting.
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>Full-stack development for affordable,
+                                    next generation diagnostic devices.</i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp;I designed the firmware
+                                communications API, wrote the system's primary
+                                task runner, and worked to develop the user interfaces.
+                                <br/>
+                                &ensp;Totally unlike any other system, which
+                                makes every hurdle both challenging and
+                                endlessly interesting.
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -412,51 +483,22 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://genomics.uci.edu/"}
+                                src={UCI}
+                                title={"UCI Genomics Research & Technology"}
+                                titleSx={{fontSize: "max(12px, 2vi)"}}
                             >
-
-                                <PictureCard
-                                    src={UCI}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            fontSize: "max(12px, 2vi)",
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        UCI Genomics Research & Technology
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>Research tools for cutting edge antibody
-                                            correlation technology.</i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp;We catalogued hundreds of billions of sequences
-                                        across the human and bacterial proteomes
-                                        and isolated antibody sequences to support
-                                        the fight against Alzheimer's and other diseases.
-                                        <br/>
-                                        {/*&ensp;To this day, research is still going on and the*/}
-                                        {/*tools we made are being built on all the time.*/}
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>Research tools for cutting edge antibody
+                                    correlation technology.</i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp;We catalogued hundreds of billions of sequences
+                                across the human and bacterial proteomes
+                                and isolated antibody sequences to support
+                                the fight against Alzheimer's and other diseases.
+                                <br/>
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -470,51 +512,23 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://planes.keanewong.com"}
+                                src={DnD}
+                                title={"180 Days Around the Planes"}
+                                titleSx={{fontSize: "max(12px, 2.8vi)"}}
                             >
-
-                                <PictureCard
-                                    src={DnD}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-
-                                            fontSize: "max(12px, 2.8vi)",
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        180 Days Around the Planes
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>An interactive game website and dice roller for
-                                            my original D&D campaign.</i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp;I put this together as a dice roller my players can
-                                        play with during games, with little secrets
-                                        scattered about for my inquisitive players.
-                                        <br/>
-                                        &ensp;And, maybe you'll spot some of it's secrets
-                                        as well. Just watch out for the <strong>monster.</strong>
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>An interactive game website and dice roller for
+                                    my original D&D campaign.</i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp;I put this together as a dice roller my players can
+                                play with during games, with little secrets
+                                scattered about for my inquisitive players.
+                                <br/>
+                                &ensp;And, maybe you'll spot some of it's secrets
+                                as well. Just watch out for the <strong>monster.</strong>
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -528,51 +542,22 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://shell.keanewong.com"}
+                                src={SatelliteShell}
+                                title={"The Satellite Shell"}
+                                titleSx={{fontSize: "max(14px, 3vi)"}}
                             >
-                                <PictureCard
-                                    src={SatelliteShell}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            fontSize: "max(14px, 3vi)",
-
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        The Satellite Shell
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>
-                                            A one-stop dev blog for the projects
-                                            I do just for myself.
-                                        </i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp; Original projects, weekly indie game
-                                            updates, and lifestyle advice from a
-                                            little cosmic window in space.
-
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>
+                                    A one-stop dev blog for the projects
+                                    I do just for myself.
+                                </i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp; Original projects, weekly indie game
+                                updates, and lifestyle advice from a
+                                little cosmic window in space.
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     <Grow
@@ -586,51 +571,22 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://cpcc.uci.edu/research.php"}
+                                src={SMAC}
+                                title={"SMAC-Fire WildFire Response Initiative"}
+                                titleSx={{fontSize: "max(12px, 2.2vi)"}}
                             >
-                                <PictureCard
-                                    src={SMAC}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            fontSize: "max(12px, 2.2vi)",
-
-                                        }}
-                                        variant={"h5"}
-                                    >
-                                        SMAC-Fire WildFire Response Initiative
-                                    </Typography>
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(8px, 1.2vi)",
-
-                                        }}
-                                        variant={"body2"}
-                                    >
-                                        <i>Predicting the spread of wildfires informed
-                                            by closed-loop sensing and machine learning
-                                            classification models.</i>
-                                        <br/>
-                                        {!isMobile && <br/>}
-                                        &ensp;We put together infrastructure for reliable,
-                                        distributed systems; the kind of systems that
-                                        would hold up after you sent them flying into
-                                        a blazing inferno.
-
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <i>Predicting the spread of wildfires informed
+                                    by closed-loop sensing and machine learning
+                                    classification models.</i>
+                                <br/>
+                                {!isMobile && <br/>}
+                                &ensp;We put together infrastructure for reliable,
+                                distributed systems; the kind of systems that
+                                would hold up after you sent them flying into
+                                a blazing inferno.
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                     {/*<Grow*/}
@@ -707,39 +663,27 @@ export const Section2 = ({
                         <Grid
                             size={CARD_SIZE}
                         >
-                            <a
-                                target={"_blank"}
+                            <ExperienceCard
                                 href={"https://github.com/KeaneWong"}
+                                src={Blank}
+                                bodySx={{
+                                    textAlign: "right",
+                                    pr: 2,
+                                    fontSize: "max(12px, 1.6vi)",
+                                }}
+                                sheetTitle={"See what else I'm up to"}
+                                sheetContent={
+                                    <>Side projects, experiments, and whatever I'm
+                                        building at the moment all live on GitHub.</>
+                                }
+                                linkLabel={"Open GitHub"}
                             >
-                                <PictureCard
-                                    src={Blank}
-                                    sx={{
-                                        textAlign: 'left',
-                                        display: 'block',
-                                        p: 1,
-                                        boxSizing: 'border-box',
-                                    }}
-                                    // hoverOverride={true}
-                                >
-
-                                    <Typography
-                                        sx={{
-                                            width: 1,
-                                            textAlign: "right",
-                                            pr: 2,
-                                            whiteSpace: 'pre-wrap',
-                                            fontSize: "max(12px, 1.6vi)",
-                                        }}
-                                        variant={"body2"}
-                                    ><br/>
-                                        <u>
-                                            {"\n\n\n\n\n"}
-                                            See what else I'm up to {'>'}
-                                        </u>
-
-                                    </Typography>
-                                </PictureCard>
-                            </a>
+                                <br/>
+                                <u>
+                                    {"\n\n\n\n\n"}
+                                    See what else I'm up to {'>'}
+                                </u>
+                            </ExperienceCard>
                         </Grid>
                     </Grow>
                 </Grid>

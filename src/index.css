@@ -1,4 +1,4 @@
-/* Registered so it interpolates; unregistered custom properties jump. */
+/* Open by default: this is the fallback if the animation never applies. */
 @property --eyeOpen {
   syntax: "<percentage>";
   inherits: false;
