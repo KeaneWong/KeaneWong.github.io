@@ -124,7 +124,6 @@ export interface ExperienceCardPropsType {
     children: ReactNode,
 }
 
-// No hover on touch, and the blurb does not fit the card.
 export const ExperienceCard = ({
                                    href,
                                    src,
@@ -279,8 +278,6 @@ export const Section2 = ({
     }
 
     const {ref} = useInView({
-        // Lower than the other sections: the ratio is a fraction of the element,
-        // and this grid can outgrow the viewport. Too high and it never reveals.
         threshold: 0.25,
         onChange: changeText
     });
@@ -417,7 +414,6 @@ export const Section2 = ({
                                 src={MetaLogo}
                                 title={"Meta"}
                                 titleSx={{fontSize: "max(14px, 3vi)"}}
-                                // Wordmark is near-black, so it needs a light backdrop.
                                 imgStyle={{
                                     objectFit: 'contain',
                                     background: '#fff',

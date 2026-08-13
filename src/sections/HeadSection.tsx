@@ -33,7 +33,6 @@ export const SubCaption = ({
             {...rest}
             sx={{
                 textAlign: 'end',
-                // Must be a definite width, or the line re-wraps mid-reveal.
                 width: collapsibleLineWidth,
                 textShadow: 'var(--scene-text-outline)',
                 ...sx
