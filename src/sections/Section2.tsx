@@ -249,7 +249,7 @@ export const Section2 = ({
     const isMobile = useIsMobile();
 
     const newString =
-        "<a href='linkedin.com/in/KeaneWong'>\n" +
+        "<a href='linkedin.com/in/Keane-Wong'>\n" +
         "\t<div>\n" +
         "\t\tMy Experience.\n" +
         "\t</div>\n" +
@@ -347,7 +347,7 @@ export const Section2 = ({
                             >
                                 <a
                                     target={"_blank"}
-                                    href={"https://linkedin.com/in/KeaneWong"}
+                                    href={"https://linkedin.com/in/Keane-Wong"}
                                     style={{
                                         textDecoration: 'inherit',
                                         color: 'inherit',
